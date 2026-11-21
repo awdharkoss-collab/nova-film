@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>NOVA SİNEMA</title>
+    <title>NOVA SİNEMA • Kamu Malı Arşiv</title>
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -13,63 +13,62 @@
         :root { --bg: #0d0d10; --surface: #16161d; --red: #e50914; --text: #ffffff; --muted: #b3b3b3; }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Roboto, sans-serif; }
         body { background: var(--bg); color: var(--text); overflow-x: hidden; padding-bottom: 50px; }
-        .navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 200; background: linear-gradient(to bottom, rgba(0,0,0,0.95), rgba(0,0,0,0.65), transparent); padding: 14px 24px; display: flex; align-items: center; gap: 18px; overflow-x: auto; scrollbar-width: none; }
+        .navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 200; background: linear-gradient(to bottom, rgba(0,0,0,0.96), rgba(0,0,0,0.75), transparent); padding: 14px 24px; display: flex; align-items: center; gap: 16px; overflow-x: auto; scrollbar-width: none; }
         .navbar::-webkit-scrollbar { display: none; }
         .logo { font-size: 24px; font-weight: 900; color: var(--red); letter-spacing: 1.5px; white-space: nowrap; }
-        .nav-links { display: flex; gap: 12px; align-items: center; }
-        .nav-item { color: #ddd; font-size: 14px; font-weight: 600; cursor: pointer; white-space: nowrap; padding: 6px 12px; border-radius: 6px; }
-        .nav-item.active { background: rgba(255,255,255,0.12); border: 1px solid var(--red); color: #fff; }
+        .nav-links { display: flex; gap: 10px; align-items: center; }
+        .nav-item { color: #ddd; font-size: 13px; font-weight: 600; cursor: pointer; white-space: nowrap; padding: 6px 12px; border-radius: 6px; }
+        .nav-item.active { background: rgba(255,255,255,0.14); border: 1px solid var(--red); color: #fff; }
         .nav-right { margin-left: auto; display: flex; gap: 8px; align-items: center; }
-        .search-input { background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2); color: #fff; padding: 6px 12px; border-radius: 20px; font-size: 13px; width: 130px; outline: none; }
-        .add-btn { background: var(--red); color: #fff; border: none; padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; cursor: pointer; white-space: nowrap; }
+        .search-input { background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2); color: #fff; padding: 6px 12px; border-radius: 20px; font-size: 13px; width: 150px; outline: none; }
         .local-btn { background: rgba(255,255,255,0.18); color: #fff; border: 1px solid rgba(255,255,255,0.25); padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; cursor: pointer; white-space: nowrap; }
-        .hero { position: relative; min-height: 440px; width: 100%; background-size: cover; background-position: center; display: flex; align-items: flex-end; padding: 90px 28px 36px; }
-        .hero::before { content: ""; position: absolute; inset: 0; background: linear-gradient(to right, rgba(13,13,16,0.96) 25%, rgba(13,13,16,0.45) 65%, rgba(13,13,16,0.85) 100%), linear-gradient(to top, var(--bg) 5%, transparent 45%); }
+        .hero { position: relative; min-height: 410px; width: 100%; background-size: cover; background-position: center; display: flex; align-items: flex-end; padding: 90px 28px 32px; }
+        .hero::before { content: ""; position: absolute; inset: 0; background: linear-gradient(to right, rgba(13,13,16,0.96) 28%, rgba(13,13,16,0.5) 65%, rgba(13,13,16,0.88) 100%), linear-gradient(to top, var(--bg) 5%, transparent 45%); }
         .hero-inner { position: relative; z-index: 2; width: 100%; display: flex; justify-content: space-between; align-items: flex-end; gap: 20px; }
-        .hero-left { max-width: 540px; }
+        .hero-left { max-width: 560px; }
         .meta-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; font-size: 13px; font-weight: 700; }
         .type-badge { background: var(--red); color: #fff; padding: 3px 8px; border-radius: 4px; font-size: 11px; }
         .star { color: #f5c518; }
-        .hero-title { font-size: 36px; font-weight: 800; margin-bottom: 10px; }
-        .hero-desc { font-size: 14px; color: #d0d0d0; line-height: 1.5; margin-bottom: 20px; }
+        .hero-title { font-size: 32px; font-weight: 800; margin-bottom: 10px; }
+        .hero-desc { font-size: 14px; color: #d0d0d0; line-height: 1.5; margin-bottom: 18px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
         .hero-btns { display: flex; gap: 12px; }
         .btn-red { background: var(--red); color: #fff; border: none; padding: 11px 24px; border-radius: 6px; font-size: 15px; font-weight: 700; cursor: pointer; }
         .btn-dark { background: rgba(255,255,255,0.16); color: #fff; border: 1px solid rgba(255,255,255,0.2); padding: 11px 22px; border-radius: 6px; font-size: 15px; font-weight: 600; cursor: pointer; }
-        .hero-poster-card { width: 165px; height: 245px; border-radius: 10px; overflow: hidden; box-shadow: 0 12px 30px rgba(0,0,0,0.8); border: 2px solid rgba(255,255,255,0.15); flex-shrink: 0; }
+        .hero-poster-card { width: 160px; height: 235px; border-radius: 10px; overflow: hidden; box-shadow: 0 12px 30px rgba(0,0,0,0.8); border: 2px solid rgba(255,255,255,0.15); flex-shrink: 0; background: #1c1c24; }
         .hero-poster-card img { width: 100%; height: 100%; object-fit: cover; }
         @media (max-width: 650px) { .hero-poster-card { display: none; } }
-        .section-header { padding: 16px 24px 12px; font-size: 19px; font-weight: 700; }
+        .section-header { padding: 14px 24px; font-size: 19px; font-weight: 700; display: flex; justify-content: space-between; align-items: center; }
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(155px, 1fr)); gap: 16px; padding: 0 24px; }
-        .card { background: var(--surface); border-radius: 8px; overflow: hidden; cursor: pointer; position: relative; border: 1px solid rgba(255,255,255,0.06); }
-        .card img { width: 100%; height: 225px; object-fit: cover; display: block; }
-        .rank-badge { position: absolute; top: 8px; left: 8px; background: rgba(0,0,0,0.85); border: 1px solid var(--red); color: #fff; font-weight: 900; font-size: 12px; padding: 3px 7px; border-radius: 5px; }
+        .card { background: var(--surface); border-radius: 8px; overflow: hidden; cursor: pointer; position: relative; border: 1px solid rgba(255,255,255,0.06); transition: transform 0.2s; }
+        .card:hover { transform: scale(1.03); border-color: var(--red); }
+        .card img { width: 100%; height: 225px; object-fit: cover; display: block; background: #1e1e28; }
+        .rank-badge { position: absolute; top: 8px; left: 8px; background: rgba(0,0,0,0.85); border: 1px solid var(--red); color: #fff; font-weight: 900; font-size: 11px; padding: 3px 7px; border-radius: 5px; }
         .card-body { padding: 10px; }
-        .card-title { font-size: 14px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .card-sub { font-size: 12px; color: var(--muted); margin-top: 4px; display: flex; justify-content: space-between; }
+        .card-title { font-size: 13px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .card-sub { font-size: 11px; color: var(--muted); margin-top: 4px; display: flex; justify-content: space-between; }
         .modal { display: none; position: fixed; inset: 0; background: #000; z-index: 999; flex-direction: column; justify-content: center; }
         .modal-top { position: absolute; top: 0; left: 0; right: 0; padding: 16px 20px; background: linear-gradient(to bottom, rgba(0,0,0,0.9), transparent); display: flex; justify-content: space-between; align-items: center; z-index: 10; }
         .close-btn { background: var(--red); color: #fff; border: none; padding: 8px 16px; border-radius: 6px; font-weight: 700; cursor: pointer; }
         video { width: 100%; max-height: 85vh; background: #000; }
+        .loader { text-align: center; padding: 40px; color: var(--muted); font-size: 15px; }
     </style>
 </head>
 <body>
 <nav class="navbar">
     <div class="logo">NOVAFİX</div>
     <div class="nav-links">
-        <div class="nav-item active" onclick="switchTab('Ana Sayfa', this)">Ana Sayfa</div>
-        <div class="nav-item" onclick="switchTab('Tavsiye', this)">Tavsiye</div>
-        <div class="nav-item" onclick="switchTab('Diziler', this)">Diziler</div>
-        <div class="nav-item" onclick="switchTab('Filmler', this)">Filmler</div>
-        <div class="nav-item" onclick="switchTab('Canlı TV', this)">Canlı TV</div>
-        <div class="nav-item" onclick="switchTab('Devam Et', this)">Devam Et</div>
-        <div class="nav-item" onclick="switchTab('Kitaplığım', this)">Kitaplığım</div>
-        <div class="nav-item" onclick="switchTab('Top 25', this)">Top 25</div>
+        <div class="nav-item active" onclick="loadArchive('feature_films', 'Sinema Filmleri', this)">Sinema Filmleri</div>
+        <div class="nav-item" onclick="loadArchive('animationandcartoons', 'Çizgi Filmler', this)">Çizgi Filmler</div>
+        <div class="nav-item" onclick="loadArchive('classic_tv', 'Klasik Diziler', this)">Klasik Diziler</div>
+        <div class="nav-item" onclick="loadArchive('documentary', 'Belgeseller', this)">Belgeseller</div>
+        <div class="nav-item" onclick="loadArchive('SciFi_Horror', 'Bilim Kurgu & Korku', this)">Bilim Kurgu</div>
+        <div class="nav-item" onclick="showSpecialTab('Devam Et', this)">Devam Et</div>
+        <div class="nav-item" onclick="showSpecialTab('Kitaplığım', this)">Kitaplığım</div>
     </div>
     <div class="nav-right">
         <input type="file" id="localFileInput" accept="video/*" style="display:none" onchange="openLocalVideo(event)">
         <button class="local-btn" onclick="document.getElementById('localFileInput').click()">📂 Cihazdan Aç</button>
-        <button class="add-btn" onclick="addCustomVideo()">+ Link Ekle</button>
-        <input type="text" id="searchInput" class="search-input" placeholder="Ara..." oninput="renderGrid()">
+        <input type="text" id="searchInput" class="search-input" placeholder="Arşivde ara..." onkeyup="if(event.key==='Enter') searchArchive()">
     </div>
 </nav>
 
@@ -77,14 +76,14 @@
     <div class="hero-inner">
         <div class="hero-left">
             <div class="meta-row">
-                <span class="type-badge" id="heroType">FİLM</span>
-                <span class="star" id="heroRating">★ 8,5</span>
-                <span id="heroYear">2010</span>
+                <span class="type-badge" id="heroType">KAMU MALI ARŞİV</span>
+                <span class="star" id="heroRating">★ ÜCRETSİZ TAM FİLM</span>
+                <span id="heroYear">HD</span>
             </div>
-            <h1 class="hero-title" id="heroTitle">Sintel</h1>
-            <p class="hero-desc" id="heroDesc">Genç bir savaşçı olan Sintel, dostluk kurduğu yavru ejderhayı bulmak için tehlikeli diyarlarda yolculuğa çıkar.</p>
+            <h1 class="hero-title" id="heroTitle">Arşiv Yükleniyor...</h1>
+            <p class="hero-desc" id="heroDesc">Internet Archive kamu malı sinema, dizi, çizgi film ve belgesel koleksiyonundan içerikler getiriliyor...</p>
             <div class="hero-btns">
-                <button class="btn-red" id="heroWatchBtn">▶ İzle</button>
+                <button class="btn-red" id="heroWatchBtn">▶ Tam Filmi İzle</button>
                 <button class="btn-dark" id="heroLibBtn">+ Kitaplığım</button>
             </div>
         </div>
@@ -94,195 +93,185 @@
     </div>
 </section>
 
-<div class="section-header"><span id="sectionTitle">Öne Çıkan Yapımlar</span></div>
+<div class="section-header">
+    <span id="sectionTitle">Sinema Filmleri</span>
+    <span id="countLabel" style="font-size:13px; color:#aaa;"></span>
+</div>
+<div id="statusMsg" class="loader">Arşivden filmler çekiliyor, lütfen bekleyin...</div>
 <div class="grid" id="contentGrid"></div>
 
 <div class="modal" id="playerModal">
     <div class="modal-top">
         <span id="playerTitle" style="font-weight:700; font-size:16px;"></span>
-        <div style="display:flex; gap:10px; align-items:center;">
-            <select id="qualitySelect" style="background:#222; color:#fff; border:1px solid #e50914; padding:6px 10px; border-radius:6px; font-weight:700;">
-                <option value="4k">4K Ultra HD</option>
-                <option value="1080p" selected>1080p Full HD</option>
-                <option value="720p">720p HD</option>
-            </select>
-            <button class="close-btn" onclick="closePlayer()">✕ Kapat</button>
-        </div>
+        <button class="close-btn" onclick="closePlayer()">✕ Kapat</button>
     </div>
-    <video id="videoPlayer" controls playsinline></video>
-    <iframe id="ytPlayer" style="display:none; width:100%; height:80vh; border:none;" allow="autoplay; fullscreen" allowfullscreen></iframe>
+    <video id="videoPlayer" controls playsinline preload="auto"></video>
 </div>
-
 <script>
-    const w3 = atob("aHR0cHM6Ly9tZWRpYS53My5vcmcvMjAxMC8wNS8=");
-    function makePoster(title, c1, c2) {
-        const c = document.createElement("canvas");
-        c.width = 400; c.height = 600;
-        const ctx = c.getContext("2d");
-        const g = ctx.createLinearGradient(0, 0, 400, 600);
-        g.addColorStop(0, c1); g.addColorStop(1, c2);
-        ctx.fillStyle = g; ctx.fillRect(0, 0, 400, 600);
-        ctx.fillStyle = "rgba(255,255,255,0.2)";
-        ctx.beginPath(); ctx.arc(200, 240, 55, 0, Math.PI * 2); ctx.fill();
-        ctx.fillStyle = "#ffffff";
-        ctx.beginPath(); ctx.moveTo(185, 215); ctx.lineTo(185, 265); ctx.lineTo(230, 240); ctx.fill();
-        ctx.font = "bold 26px sans-serif"; ctx.textAlign = "center";
-        ctx.fillText(title.slice(0, 18), 200, 450);
-        ctx.font = "16px sans-serif"; ctx.fillStyle = "rgba(255,255,255,0.75)";
-        ctx.fillText("NOVA SINEMA HD", 200, 490);
-        return c.toDataURL("image/png");
-    }
+    const archiveApi = atob("aHR0cHM6Ly9hcmNoaXZlLm9yZy9hZHZhbmNlZHNlYXJjaC5waHA=");
+    const archiveImg = atob("aHR0cHM6Ly9hcmNoaXZlLm9yZy9zZXJ2aWNlcy9pbWcv");
+    const archiveMeta = atob("aHR0cHM6Ly9hcmNoaXZlLm9yZy9tZXRhZGF0YS8=");
+    const archiveDown = atob("aHR0cHM6Ly9hcmNoaXZlLm9yZy9kb3dubG9hZC8=");
 
-    const defaultCatalog = [
-        { id: 1, title: "Sintel", type: "Filmler", badge: "FİLM", year: "2010", rating: "8,5", rank: 1, recommended: true, poster: makePoster("SINTEL", "#7f1d1d", "#09090b"), video: w3 + "sintel/trailer_hd.mp4", desc: "Genç bir savaşçı olan Sintel, dostluk kurduğu yavru ejderhayı bulmak için tehlikeli diyarlarda yolculuğa çıkar." },
-        { id: 2, title: "Tears of Steel", type: "Filmler", badge: "FİLM", year: "2012", rating: "7,9", rank: 2, recommended: true, poster: makePoster("TEARS OF STEEL", "#1e3a8a", "#09090b"), video: w3 + "video/movie_300.mp4", desc: "Amsterdam'da bir grup bilim insanı ve savaşçı, dünyayı ele geçiren robotlara karşı geçmişi değiştirmeye çalışır." },
-        { id: 3, title: "Big Buck Bunny", type: "Diziler", badge: "DİZİ", year: "2008", rating: "8,2", rank: 3, recommended: false, poster: makePoster("BIG BUCK BUNNY", "#14532d", "#09090b"), video: w3 + "bunny/trailer.mp4", desc: "Devasa ama yumuşak kalpli bir tavşanın ormandaki yaramaz kemirgenlere karşı verdiği eğlenceli mücadele." },
-        { id: 4, title: "Elephants Dream", type: "Filmler", badge: "KLASİK", year: "2006", rating: "8,0", rank: 4, recommended: true, poster: makePoster("ELEPHANTS DREAM", "#581c87", "#09090b"), video: w3 + "sintel/trailer.mp4", desc: "İki farklı karakterin mekanik ve gizemli bir dünyadaki sürreal yolculuğu." },
-        { id: 5, title: "Doğa & Uzay TV", type: "Canlı TV", badge: "CANLI TV", year: "2026", rating: "9,1", rank: 5, recommended: true, poster: makePoster("CANLI YAYIN", "#9a3412", "#09090b"), video: w3 + "bunny/movie.mp4", desc: "7/24 kesintisiz belgesel ve manzara akışı." }
-    ];
-
-    let customMovies = JSON.parse(localStorage.getItem("novafix_custom") || "[]").map(m => ({ ...m, isCustom: true, poster: makePoster(m.title.toUpperCase(), "#0f766e", "#09090b") }));
-    let catalog = [...customMovies, ...defaultCatalog];
-    let activeTab = "Ana Sayfa";
-    let library = JSON.parse(localStorage.getItem("novafix_lib") || "[]");
-    let continueList = JSON.parse(localStorage.getItem("novafix_cont") || "{}");
+    let currentList = [];
+    let library = JSON.parse(localStorage.getItem("novafix_arch_lib") || "[]");
+    let continueList = JSON.parse(localStorage.getItem("novafix_arch_cont") || "{}");
     let currentPlayingId = null;
-    function deleteMovie(id, event) {
-        event.stopPropagation();
-        if (!confirm("Bu içeriği listeden silmek istediğinize emin misiniz?")) return;
-        catalog = catalog.filter(m => m.id !== id);
-        const raw = JSON.parse(localStorage.getItem("novafix_custom") || "[]").filter(m => m.id !== id);
-        localStorage.setItem("novafix_custom", JSON.stringify(raw));
-        delete continueList[id];
-        localStorage.setItem("novafix_cont", JSON.stringify(continueList));
-        setHero(catalog.at(0));
-        renderGrid();
+
+    async function loadArchive(collection, label, el) {
+        if (el) {
+            document.querySelectorAll(".nav-item").forEach(n => n.classList.remove("active"));
+            el.classList.add("active");
+        }
+        document.getElementById("sectionTitle").innerText = label;
+        document.getElementById("statusMsg").style.display = "block";
+        document.getElementById("statusMsg").innerText = label + " yükleniyor...";
+        document.getElementById("contentGrid").innerHTML = "";
+
+        const q = `collection:(${collection}) AND mediatype:(movies)`;
+        const url = `${archiveApi}?q=${encodeURIComponent(q)}&fl[]=identifier,title,year,description,downloads&sort[]=downloads+desc&rows=48&page=1&output=json`;
+
+        try {
+            const res = await fetch(url);
+            const data = await res.json();
+            const docs = data.response.docs || [];
+            currentList = docs.map((d, i) => ({
+                id: d.identifier,
+                title: d.title || d.identifier,
+                year: d.year || "Klasik",
+                badge: label.toUpperCase(),
+                rank: i + 1,
+                poster: archiveImg + d.identifier,
+                desc: Array.isArray(d.description) ? d.description.at(0) : (d.description || "Internet Archive kamu malı tam uzunlukta video arşivi.")
+            }));
+            document.getElementById("statusMsg").style.display = "none";
+            document.getElementById("countLabel").innerText = currentList.length + " yapım listelendi";
+            if (currentList.length > 0) setHero(currentList.at(0));
+            renderCards(currentList);
+        } catch (e) {
+            document.getElementById("statusMsg").innerText = "Bağlantı hatası oluştu, lütfen tekrar deneyin.";
+        }
     }
 
-    function openLocalVideo(event) {
-        const file = event.target.files.item(0);
-        if (!file) return;
-        const localUrl = URL.createObjectURL(file);
-        const cleanName = file.name.replace(/\.[^/.]+$/, "");
-        const newItem = { id: Date.now(), title: cleanName, type: "Filmler", badge: "YEREL HD", year: "2026", rating: "9,5", rank: catalog.length + 1, recommended: true, isCustom: true, poster: makePoster(cleanName.toUpperCase(), "#0f766e", "#09090b"), video: localUrl, desc: "Cihazınızdan seçilen yerel video dosyası." };
-        catalog.unshift(newItem);
-        setHero(newItem);
-        renderGrid();
-        playContent(newItem);
+    async function searchArchive() {
+        const term = document.getElementById("searchInput").value.trim();
+        if (!term) return;
+        document.getElementById("sectionTitle").innerText = `Arama: "${term}"`;
+        document.getElementById("statusMsg").style.display = "block";
+        document.getElementById("statusMsg").innerText = "Aranıyor...";
+        document.getElementById("contentGrid").innerHTML = "";
+
+        const q = `title:(${term}) AND mediatype:(movies) AND (collection:feature_films OR collection:animationandcartoons OR collection:classic_tv OR collection:documentary)`;
+        const url = `${archiveApi}?q=${encodeURIComponent(q)}&fl[]=identifier,title,year,description&sort[]=downloads+desc&rows=40&page=1&output=json`;
+
+        const res = await fetch(url);
+        const data = await res.json();
+        const docs = data.response.docs || [];
+        currentList = docs.map((d, i) => ({
+            id: d.identifier, title: d.title || d.identifier, year: d.year || "Arşiv", badge: "ARAMA", rank: i + 1,
+            poster: archiveImg + d.identifier,
+            desc: Array.isArray(d.description) ? d.description.at(0) : (d.description || "Kamu malı video arşivi.")
+        }));
+        document.getElementById("statusMsg").style.display = "none";
+        renderCards(currentList);
     }
 
-    function addCustomVideo() {
-        const title = prompt("Film veya Video Adı:");
-        if (!title) return;
-        const url = prompt("Doğrudan .mp4 veya YouTube Bağlantısını Yapıştırın:");
-        if (!url) return;
-        const raw = JSON.parse(localStorage.getItem("novafix_custom") || "[]");
-        const newItem = { id: Date.now(), title: title, type: "Filmler", badge: "ÖZEL", year: "2026", rating: "9,0", rank: catalog.length + 1, recommended: true, isCustom: true, video: url, desc: "Kullanıcı tarafından eklenen video bağlantısı." };
-        raw.unshift(newItem);
-        localStorage.setItem("novafix_custom", JSON.stringify(raw));
-        catalog.unshift({ ...newItem, poster: makePoster(title.toUpperCase(), "#0f766e", "#09090b") });
-        renderGrid();
-    }
-
-    function getYouTubeId(url) {
-        const reg = /(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
-        const match = url.match(reg);
-        return match ? match.at(1) : null;
+    function showSpecialTab(tab, el) {
+        document.querySelectorAll(".nav-item").forEach(n => n.classList.remove("active"));
+        el.classList.add("active");
+        document.getElementById("sectionTitle").innerText = tab;
+        document.getElementById("statusMsg").style.display = "none";
+        if (tab === "Kitaplığım") renderCards(library);
+        if (tab === "Devam Et") renderCards(Object.values(continueList));
     }
 
     function setHero(item) {
         if (!item) return;
         document.getElementById("hero").style.backgroundImage = `url("${item.poster}")`;
         document.getElementById("heroType").innerText = item.badge;
-        document.getElementById("heroRating").innerText = `★ ${item.rating}`;
         document.getElementById("heroYear").innerText = item.year;
         document.getElementById("heroTitle").innerText = item.title;
-        document.getElementById("heroDesc").innerText = item.desc;
+        document.getElementById("heroDesc").innerText = item.desc.replace(/<[^>]*>?/gm, '');
         document.getElementById("heroSidePoster").src = item.poster;
-        document.getElementById("heroWatchBtn").onclick = () => playContent(item);
-        document.getElementById("heroLibBtn").onclick = () => toggleLibrary(item.id);
-        document.getElementById("heroLibBtn").innerText = library.includes(item.id) ? "✓ Kitaplığımda" : "+ Detaylar / Ekle";
+        document.getElementById("heroWatchBtn").onclick = () => playArchiveItem(item);
+        document.getElementById("heroLibBtn").onclick = () => toggleLibrary(item);
+        const exists = library.some(x => x.id === item.id);
+        document.getElementById("heroLibBtn").innerText = exists ? "✓ Kitaplığımda" : "+ Kitaplığım";
     }
 
-    function toggleLibrary(id) {
-        if (library.includes(id)) library = library.filter(x => x !== id);
-        else library.push(id);
-        localStorage.setItem("novafix_lib", JSON.stringify(library));
-        setHero(catalog.at(0));
-        renderGrid();
+    function toggleLibrary(item) {
+        if (library.some(x => x.id === item.id)) library = library.filter(x => x.id !== item.id);
+        else library.unshift(item);
+        localStorage.setItem("novafix_arch_lib", JSON.stringify(library));
+        setHero(item);
     }
 
-    function switchTab(tab, el) {
-        activeTab = tab;
-        document.querySelectorAll(".nav-item").forEach(n => n.classList.remove("active"));
-        el.classList.add("active");
-        document.getElementById("sectionTitle").innerText = tab;
-        renderGrid();
-    }
-
-    function renderGrid() {
-        const q = document.getElementById("searchInput").value.toLowerCase();
+    function renderCards(list) {
         const grid = document.getElementById("contentGrid");
         grid.innerHTML = "";
-        let list = catalog.filter(item => {
-            if (!item.title.toLowerCase().includes(q)) return false;
-            if (activeTab === "Ana Sayfa") return true;
-            if (activeTab === "Tavsiye") return item.recommended;
-            if (activeTab === "Kitaplığım") return library.includes(item.id);
-            if (activeTab === "Devam Et") return continueList[item.id] > 0;
-            if (activeTab === "Top 25") return true;
-            return item.type === activeTab;
-        });
-        if (activeTab === "Top 25") list.sort((a, b) => a.rank - b.rank);
         list.forEach(item => {
             const card = document.createElement("div");
             card.className = "card";
-            const savedSec = continueList[item.id] ? Math.floor(continueList[item.id]) + " sn izlendi" : item.year;
-            const delBtn = item.isCustom ? `<button onclick="deleteMovie(${item.id}, event)" style="position:absolute; top:8px; right:8px; background:rgba(229,9,20,0.9); color:#fff; border:none; border-radius:6px; padding:4px 8px; font-size:11px; font-weight:700; cursor:pointer; z-index:5;">🗑️ Sil</button>` : "";
-            card.innerHTML = `${activeTab === "Top 25" ? `<div class="rank-badge">#${item.rank}</div>` : ""}${delBtn}<img src="${item.poster}" alt="${item.title}"><div class="card-body"><div class="card-title">${item.title}</div><div class="card-sub"><span>${savedSec}</span><span class="star">★ ${item.rating}</span></div></div>`;
-            card.onclick = () => playContent(item);
+            card.innerHTML = `<div class="rank-badge">#${item.rank || "•"}</div><img src="${item.poster}" loading="lazy"><div class="card-body"><div class="card-title">${item.title}</div><div class="card-sub"><span>${item.year}</span><span class="star">★ TAM SÜRÜM</span></div></div>`;
+            card.onclick = () => { setHero(item); playArchiveItem(item); };
             grid.appendChild(card);
         });
     }
 
-    function playContent(item) {
-        currentPlayingId = item.id;
+    async function playArchiveItem(item) {
+        currentPlayingId = item;
         const modal = document.getElementById("playerModal");
         const video = document.getElementById("videoPlayer");
-        const yt = document.getElementById("ytPlayer");
-        document.getElementById("playerTitle").innerText = item.title;
+        document.getElementById("playerTitle").innerText = item.title + " (Yükleniyor...)";
         modal.style.display = "flex";
-        const ytId = getYouTubeId(item.video);
-        if (ytId) {
-            video.style.display = "none";
-            yt.style.display = "block";
-            yt.src = atob("aHR0cHM6Ly93d3cueW91dHViZS5jb20vZW1iZWQv") + ytId + "?autoplay=1";
-        } else {
-            yt.style.display = "none";
-            video.style.display = "block";
-            video.src = item.video;
-            if (continueList[item.id]) video.currentTime = continueList[item.id];
+
+        if (item.localUrl) {
+            document.getElementById("playerTitle").innerText = item.title;
+            video.src = item.localUrl;
             video.play();
+            return;
         }
+
+        try {
+            const res = await fetch(archiveMeta + item.id);
+            const meta = await res.json();
+            const files = meta.files || [];
+            const mp4 = files.find(f => f.name && f.name.endsWith(".mp4") && !f.name.includes("_512kb")) || files.find(f => f.name && f.name.endsWith(".mp4"));
+            if (mp4) {
+                document.getElementById("playerTitle").innerText = item.title;
+                video.src = archiveDown + item.id + "/" + encodeURIComponent(mp4.name);
+                if (continueList[item.id] && continueList[item.id].time) video.currentTime = continueList[item.id].time;
+                video.play();
+            } else {
+                alert("Bu arşiv kaydı için uygun MP4 akışı bulunamadı, başka bir yapım deneyin.");
+                closePlayer();
+            }
+        } catch (e) {
+            alert("Video akışı başlatılamadı.");
+            closePlayer();
+        }
+    }
+
+    function openLocalVideo(event) {
+        const file = event.target.files.item(0);
+        if (!file) return;
+        const item = { id: "local_" + Date.now(), title: file.name, year: "Yerel", badge: "YEREL HD", localUrl: URL.createObjectURL(file) };
+        playArchiveItem(item);
     }
 
     function closePlayer() {
         const modal = document.getElementById("playerModal");
         const video = document.getElementById("videoPlayer");
-        const yt = document.getElementById("ytPlayer");
-        if (currentPlayingId && video.style.display !== "none" && video.currentTime > 2) {
-            continueList[currentPlayingId] = video.currentTime;
-            localStorage.setItem("novafix_cont", JSON.stringify(continueList));
+        if (currentPlayingId && !currentPlayingId.localUrl && video.currentTime > 5) {
+            continueList[currentPlayingId.id] = { ...currentPlayingId, time: video.currentTime };
+            localStorage.setItem("novafix_arch_cont", JSON.stringify(continueList));
         }
         video.pause();
         video.src = "";
-        yt.src = "";
         modal.style.display = "none";
-        renderGrid();
     }
 
-    setHero(catalog.at(0));
-    renderGrid();
+    loadArchive("feature_films", "Sinema Filmleri", document.querySelector(".nav-item"));
 </script>
 </body>
 </html>
