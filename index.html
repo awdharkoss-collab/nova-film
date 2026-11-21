@@ -3,95 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>NOVA SİNEMA • Canlı TV & Türkçe Arşiv</title>
+    <title>NOVA TV • Türkiye Canlı Yayın</title>
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="NOVA SİNEMA">
+    <meta name="apple-mobile-web-app-title" content="NOVA TV">
     <link rel="apple-touch-icon" href="logo.png">
     <script src="https://cloudflare.com"></script>
     <style>
         :root { --bg: #0d0d10; --surface: #16161d; --red: #e50914; --text: #ffffff; --muted: #b3b3b3; }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Roboto, sans-serif; }
         body { background: var(--bg); color: var(--text); overflow-x: hidden; padding-bottom: 50px; }
-        .navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 200; background: linear-gradient(to bottom, rgba(0,0,0,0.96), rgba(0,0,0,0.75), transparent); padding: 14px 24px; display: flex; align-items: center; gap: 16px; overflow-x: auto; scrollbar-width: none; }
+        .navbar { position: sticky; top: 0; z-index: 200; background: rgba(13,13,16,0.96); backdrop-filter: blur(10px); padding: 14px 20px; display: flex; align-items: center; gap: 14px; overflow-x: auto; border-bottom: 1px solid rgba(255,255,255,0.08); scrollbar-width: none; }
         .navbar::-webkit-scrollbar { display: none; }
-        .logo { font-size: 24px; font-weight: 900; color: var(--red); letter-spacing: 1.5px; white-space: nowrap; }
-        .nav-links { display: flex; gap: 10px; align-items: center; }
-        .nav-item { color: #ddd; font-size: 13px; font-weight: 600; cursor: pointer; white-space: nowrap; padding: 6px 12px; border-radius: 6px; }
-        .nav-item.active { background: rgba(255,255,255,0.14); border: 1px solid var(--red); color: #fff; }
+        .logo { font-size: 22px; font-weight: 900; color: var(--red); letter-spacing: 1.5px; white-space: nowrap; }
+        .nav-links { display: flex; gap: 8px; align-items: center; }
+        .nav-item { color: #ddd; font-size: 13px; font-weight: 600; cursor: pointer; white-space: nowrap; padding: 6px 12px; border-radius: 20px; background: #1c1c26; }
+        .nav-item.active { background: var(--red); color: #fff; }
         .nav-right { margin-left: auto; display: flex; gap: 8px; align-items: center; }
-        .search-input { background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2); color: #fff; padding: 6px 12px; border-radius: 20px; font-size: 13px; width: 145px; outline: none; }
-        .local-btn { background: rgba(255,255,255,0.18); color: #fff; border: 1px solid rgba(255,255,255,0.25); padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; cursor: pointer; white-space: nowrap; }
-        .hero { position: relative; min-height: 390px; width: 100%; background-size: cover; background-position: center; display: flex; align-items: flex-end; padding: 90px 28px 32px; }
-        .hero::before { content: ""; position: absolute; inset: 0; background: linear-gradient(to right, rgba(13,13,16,0.96) 28%, rgba(13,13,16,0.5) 65%, rgba(13,13,16,0.88) 100%), linear-gradient(to top, var(--bg) 5%, transparent 45%); }
-        .hero-inner { position: relative; z-index: 2; width: 100%; display: flex; justify-content: space-between; align-items: flex-end; gap: 20px; }
-        .hero-left { max-width: 560px; }
-        .meta-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; font-size: 13px; font-weight: 700; }
-        .type-badge { background: var(--red); color: #fff; padding: 3px 8px; border-radius: 4px; font-size: 11px; }
-        .star { color: #f5c518; }
-        .hero-title { font-size: 32px; font-weight: 800; margin-bottom: 10px; }
-        .hero-desc { font-size: 14px; color: #d0d0d0; line-height: 1.5; margin-bottom: 18px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
-        .hero-btns { display: flex; gap: 12px; }
-        .btn-red { background: var(--red); color: #fff; border: none; padding: 11px 24px; border-radius: 6px; font-size: 15px; font-weight: 700; cursor: pointer; }
-        .btn-dark { background: rgba(255,255,255,0.16); color: #fff; border: 1px solid rgba(255,255,255,0.2); padding: 11px 22px; border-radius: 6px; font-size: 15px; font-weight: 600; cursor: pointer; }
-        .section-header { padding: 14px 24px; font-size: 19px; font-weight: 700; display: flex; justify-content: space-between; align-items: center; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(155px, 1fr)); gap: 16px; padding: 0 24px; }
-        .card { background: var(--surface); border-radius: 8px; overflow: hidden; cursor: pointer; position: relative; border: 1px solid rgba(255,255,255,0.06); transition: transform 0.2s; }
+        .search-input { background: #1f1f2b; border: 1px solid rgba(255,255,255,0.15); color: #fff; padding: 7px 14px; border-radius: 20px; font-size: 13px; width: 150px; outline: none; }
+        .local-btn { background: rgba(255,255,255,0.15); color: #fff; border: none; padding: 7px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; cursor: pointer; white-space: nowrap; }
+        .section-header { padding: 18px 20px 12px; font-size: 18px; font-weight: 700; display: flex; justify-content: space-between; align-items: center; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 14px; padding: 0 20px; }
+        .card { background: var(--surface); border-radius: 10px; overflow: hidden; cursor: pointer; position: relative; border: 1px solid rgba(255,255,255,0.06); transition: transform 0.2s; }
         .card:hover { transform: scale(1.03); border-color: var(--red); }
-        .card img { width: 100%; height: 180px; object-fit: contain; background: #121218; display: block; padding: 8px; }
-        .card.poster img { height: 225px; object-fit: cover; padding: 0; }
-        .live-dot { position: absolute; top: 8px; left: 8px; background: var(--red); color: #fff; font-weight: 900; font-size: 10px; padding: 3px 7px; border-radius: 4px; }
+        .card img { width: 100%; height: 115px; object-fit: contain; background: #111117; display: block; padding: 12px; }
+        .live-dot { position: absolute; top: 8px; left: 8px; background: var(--red); color: #fff; font-weight: 900; font-size: 10px; padding: 2px 6px; border-radius: 4px; }
+        .fav-btn { position: absolute; top: 6px; right: 6px; background: rgba(0,0,0,0.6); border: none; color: #fff; font-size: 14px; padding: 4px 7px; border-radius: 50%; cursor: pointer; }
         .card-body { padding: 10px; }
         .card-title { font-size: 13px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .card-sub { font-size: 11px; color: var(--muted); margin-top: 4px; display: flex; justify-content: space-between; }
+        .card-sub { font-size: 11px; color: var(--muted); margin-top: 3px; }
         .modal { display: none; position: fixed; inset: 0; background: #000; z-index: 999; flex-direction: column; justify-content: center; }
         .modal-top { position: absolute; top: 0; left: 0; right: 0; padding: 16px 20px; background: linear-gradient(to bottom, rgba(0,0,0,0.9), transparent); display: flex; justify-content: space-between; align-items: center; z-index: 10; }
         .close-btn { background: var(--red); color: #fff; border: none; padding: 8px 16px; border-radius: 6px; font-weight: 700; cursor: pointer; }
         video { width: 100%; max-height: 85vh; background: #000; }
-        .loader { text-align: center; padding: 40px; color: var(--muted); font-size: 15px; }
+        .loader { text-align: center; padding: 40px; color: var(--muted); font-size: 14px; }
     </style>
 </head>
 <body>
 <nav class="navbar">
-    <div class="logo">NOVAFİX</div>
+    <div class="logo">NOVA TV</div>
     <div class="nav-links">
-        <div class="nav-item active" onclick="loadLiveTV(this)">📺 Canlı TV (TR)</div>
-        <div class="nav-item" onclick="loadTurkishArchive('all', 'Türkçe Filmler', this)">Türkçe Filmler</div>
-        <div class="nav-item" onclick="loadTurkishArchive('belgesel', 'Türkçe Belgesel', this)">Türkçe Belgesel</div>
-        <div class="nav-item" onclick="loadTurkishArchive('cizgi', 'Türkçe Çizgi Film', this)">Türkçe Çizgi Film</div>
-        <div class="nav-item" onclick="showSpecialTab('Kitaplığım', this)">Kitaplığım</div>
+        <div class="nav-item active" onclick="filterCat('Tümü', this)">Tümü</div>
+        <div class="nav-item" onclick="filterCat('Ulusal', this)">Ulusal</div>
+        <div class="nav-item" onclick="filterCat('Çocuk', this)">Çocuk & Çizgi Film</div>
+        <div class="nav-item" onclick="filterCat('Haber', this)">Haber</div>
+        <div class="nav-item" onclick="filterCat('Belgesel', this)">Belgesel</div>
+        <div class="nav-item" onclick="filterCat('Spor', this)">Spor</div>
+        <div class="nav-item" onclick="filterCat('Müzik', this)">Müzik</div>
+        <div class="nav-item" onclick="filterCat('Favoriler', this)">❤️ Favoriler</div>
     </div>
     <div class="nav-right">
         <input type="file" id="localFileInput" accept="video/*" style="display:none" onchange="openLocalVideo(event)">
         <button class="local-btn" onclick="document.getElementById('localFileInput').click()">📂 Cihazdan Aç</button>
-        <input type="text" id="searchInput" class="search-input" placeholder="Kanal veya film ara..." oninput="filterCurrent()">
+        <input type="text" id="searchInput" class="search-input" placeholder="Kanal ara..." oninput="renderChannels()">
     </div>
 </nav>
 
-<section class="hero" id="hero">
-    <div class="hero-inner">
-        <div class="hero-left">
-            <div class="meta-row">
-                <span class="type-badge" id="heroType">CANLI YAYIN</span>
-                <span class="star" id="heroRating">★ ÜCRETSİZ RESMİ AKIŞ</span>
-                <span id="heroYear">HD</span>
-            </div>
-            <h1 class="hero-title" id="heroTitle">Türkiye Canlı TV</h1>
-            <p class="hero-desc" id="heroDesc">Ulusal kanallar, haber, belgesel ve çocuk kanallarını tek tıkla canlı izleyin veya Türkçe kamu malı film arşivine göz atın.</p>
-            <div class="hero-btns">
-                <button class="btn-red" id="heroWatchBtn">▶ Canlı İzle</button>
-                <button class="btn-dark" id="heroLibBtn">+ Kitaplığım</button>
-            </div>
-        </div>
-    </div>
-</section>
-
 <div class="section-header">
-    <span id="sectionTitle">Canlı TV Kanalları</span>
+    <span id="sectionTitle">Türkiye Canlı TV Kanalları</span>
     <span id="countLabel" style="font-size:13px; color:#aaa;"></span>
 </div>
-<div id="statusMsg" class="loader">Kanallar yükleniyor...</div>
+<div id="statusMsg" class="loader">Güncel Türkiye canlı yayın listesi yükleniyor...</div>
 <div class="grid" id="contentGrid"></div>
 
 <div class="modal" id="playerModal">
@@ -102,186 +75,133 @@
     <video id="videoPlayer" controls playsinline preload="auto"></video>
 </div>
 <script>
-    const archiveApi = atob("aHR0cHM6Ly9hcmNoaXZlLm9yZy9hZHZhbmNlZHNlYXJjaC5waHA=");
-    const archiveImg = atob("aHR0cHM6Ly9hcmNoaXZlLm9yZy9zZXJ2aWNlcy9pbWcv");
-    const archiveMeta = atob("aHR0cHM6Ly9hcmNoaXZlLm9yZy9tZXRhZGF0YS8=");
-    const archiveDown = atob("aHR0cHM6Ly9hcmNoaXZlLm9yZy9kb3dubG9hZC8=");
-
-    const officialChannels = [
-        { id: "trt1", title: "TRT 1 HD", isLive: true, year: "ULUSAL", streamUrl: atob("aHR0cHM6Ly90di10cnQxLm1lZGlhYnJ0LmNvbS50ci9tYXN0ZXIubTN1OA=="), desc: "TRT 1 Resmi Canlı Yayın Akışı" },
-        { id: "trthaber", title: "TRT Haber HD", isLive: true, year: "HABER", streamUrl: atob("aHR0cHM6Ly90di10cnRoYWJlci5tZWRpYWJydC5jb20udHIvbWFzdGVyLm0zdTg="), desc: "TRT Haber Resmi Canlı Yayın Akışı" },
-        { id: "trtbelgesel", title: "TRT Belgesel HD", isLive: true, year: "BELGESEL", streamUrl: atob("aHR0cHM6Ly90di10cnRiZWxnZXNlbC5tZWRpYWJydC5jb20udHIvbWFzdGVyLm0zdTg="), desc: "TRT Belgesel Resmi Canlı Yayın Akışı" },
-        { id: "trtcocuk", title: "TRT Çocuk HD", isLive: true, year: "ÇOCUK", streamUrl: atob("aHR0cHM6Ly90di10cnRjb2N1ay5tZWRpYWJydC5jb20udHIvbWFzdGVyLm0zdTg="), desc: "TRT Çocuk Resmi Canlı Yayın Akışı" },
-        { id: "trtspor", title: "TRT Spor HD", isLive: true, year: "SPOR", streamUrl: atob("aHR0cHM6Ly90di10cnRzcG9yLm1lZGlhYnJ0LmNvbS50ci9tYXN0ZXIubTN1OA=="), desc: "TRT Spor Resmi Canlı Yayın Akışı" },
-        { id: "trtmuzik", title: "TRT Müzik HD", isLive: true, year: "MÜZİK", streamUrl: atob("aHR0cHM6Ly90di10cnRtdXppay5tZWRpYWJydC5jb20udHIvbWFzdGVyLm0zdTg="), desc: "TRT Müzik Resmi Canlı Yayın Akışı" }
-    ];
-
-    let allItems = [];
-    let library = JSON.parse(localStorage.getItem("novafix_tr_lib") || "[]");
+    const m3uSource = atob("aHR0cHM6Ly9pcHR2LW9yZy5naXRodWIuaW8vaXB0di9jb3VudHJpZXMvdHIubTN1");
+    let channels = [];
+    let currentCat = "Tümü";
+    let favs = JSON.parse(localStorage.getItem("novatv_favs") || "[]");
     let hlsInstance = null;
 
-    function makeTvLogo(name, color = "#e50914") {
+    function makeLogo(name) {
         const c = document.createElement("canvas");
-        c.width = 400; c.height = 240;
+        c.width = 360; c.height = 200;
         const ctx = c.getContext("2d");
-        const g = ctx.createLinearGradient(0, 0, 400, 240);
-        g.addColorStop(0, "#1f1f2e"); g.addColorStop(1, "#0d0d12");
-        ctx.fillStyle = g; ctx.fillRect(0, 0, 400, 240);
-        ctx.fillStyle = color; ctx.fillRect(0, 0, 12, 240);
-        ctx.fillStyle = "#ffffff"; ctx.font = "bold 28px sans-serif"; ctx.textAlign = "center";
-        ctx.fillText(name.slice(0, 18), 205, 128);
+        ctx.fillStyle = "#14141d"; ctx.fillRect(0, 0, 360, 200);
+        ctx.fillStyle = "#e50914"; ctx.fillRect(0, 0, 8, 200);
+        ctx.fillStyle = "#ffffff"; ctx.font = "bold 24px sans-serif"; ctx.textAlign = "center";
+        ctx.fillText(name.slice(0, 18), 184, 108);
         return c.toDataURL("image/png");
     }
 
-    function loadLiveTV(el) {
-        if (el) {
-            document.querySelectorAll(".nav-item").forEach(n => n.classList.remove("active"));
-            el.classList.add("active");
-        }
-        document.getElementById("sectionTitle").innerText = "Canlı TV Kanalları (Türkiye)";
-        document.getElementById("statusMsg").style.display = "none";
-
-        const list = officialChannels.map(ch => ({
-            ...ch,
-            poster: makeTvLogo(ch.title),
-            fallback: makeTvLogo(ch.title)
-        }));
-        allItems = list;
-        document.getElementById("countLabel").innerText = list.length + " resmi kanal yayında";
-        if (list.length > 0) setHero(list.at(0));
-        renderGrid(list);
+    function detectCategory(name, group) {
+        const n = (name + " " + group).toLowerCase();
+        if (n.includes("çocuk") || n.includes("cocuk") || n.includes("cartoon") || n.includes("minika") || n.includes("disney") || n.includes("kids") || n.includes("zarok")) return "Çocuk";
+        if (n.includes("haber") || n.includes("ntv") || n.includes("cnn") || n.includes("a haber") || n.includes("halk") || n.includes("tele1") || n.includes("sözcü") || n.includes("habertürk")) return "Haber";
+        if (n.includes("belgesel") || n.includes("yaban") || n.includes("nat geo") || n.includes("discovery") || n.includes("tlc") || n.includes("dmax")) return "Belgesel";
+        if (n.includes("spor") || n.includes("sport") || n.includes("tjk") || n.includes("fb") || n.includes("gs") || n.includes("bjk")) return "Spor";
+        if (n.includes("müzik") || n.includes("muzik") || n.includes("kral") || n.includes("powertürk") || n.includes("dream") || n.includes("number1")) return "Müzik";
+        return "Ulusal";
     }
 
-    async function loadTurkishArchive(filterType, label, el) {
-        if (el) {
-            document.querySelectorAll(".nav-item").forEach(n => n.classList.remove("active"));
-            el.classList.add("active");
-        }
-        document.getElementById("sectionTitle").innerText = label;
-        document.getElementById("statusMsg").style.display = "block";
-        document.getElementById("statusMsg").innerText = label + " aranıyor...";
-        document.getElementById("contentGrid").innerHTML = "";
-
-        let q = `language:(Turkish) AND collection:(feature_films) AND mediatype:(movies)`;
-        if (filterType === "belgesel") q = `language:(Turkish) AND (subject:(documentary) OR title:(belgesel) OR title:(tarih) OR title:(doğa)) AND mediatype:(movies)`;
-        if (filterType === "cizgi") q = `(collection:(animationandcartoons) OR title:(çizgi film) OR title:(masal)) AND mediatype:(movies)`;
-
-        const url = `${archiveApi}?q=${encodeURIComponent(q)}&fl[]=identifier,title,year,description&sort[]=downloads+desc&rows=48&page=1&output=json`;
+    async function initChannels() {
         try {
-            const res = await fetch(url);
-            const data = await res.json();
-            const docs = data.response.docs || [];
-            allItems = docs.map(d => ({
-                id: d.identifier,
-                title: d.title || d.identifier,
-                isLive: false,
-                poster: archiveImg + d.identifier,
-                fallback: makeTvLogo(d.title || "ARŞİV", "#3b82f6"),
-                year: d.year || "Arşiv",
-                desc: Array.isArray(d.description) ? d.description.at(0) : (d.description || "Kamu malı video arşivi.")
-            }));
+            const res = await fetch(m3uSource);
+            const text = await res.text();
+            const lines = text.split("\n");
+            const list = [];
+            for (let i = 0; i < lines.length; i++) {
+                if (lines.at(i).startsWith("#EXTINF")) {
+                    const info = lines.at(i);
+                    const url = (lines.at(i + 1) || "").trim();
+                    const name = info.split(",").at(-1).replace(/\(.*?\)/g, "").trim();
+                    const logoMatch = info.match(/tvg-logo="([^"]+)"/);
+                    const groupMatch = info.match(/group-title="([^"]+)"/);
+                    if (url.startsWith("https://")) {
+                        list.push({
+                            id: name + "_" + i,
+                            title: name,
+                            cat: detectCategory(name, groupMatch ? groupMatch.at(1) : ""),
+                            url: url,
+                            logo: logoMatch ? logoMatch.at(1) : makeLogo(name),
+                            fallback: makeLogo(name)
+                        });
+                    }
+                }
+            }
+            channels = list;
             document.getElementById("statusMsg").style.display = "none";
-            document.getElementById("countLabel").innerText = allItems.length + " yapım";
-            if (allItems.length > 0) setHero(allItems.at(0));
-            renderGrid(allItems);
+            renderChannels();
         } catch (e) {
-            document.getElementById("statusMsg").innerText = "Arşiv yüklenirken hata oluştu.";
+            document.getElementById("statusMsg").innerText = "Yayın listesi alınamadı, lütfen bağlantınızı kontrol edin.";
         }
     }
 
-    function showSpecialTab(tab, el) {
+    function filterCat(cat, el) {
+        currentCat = cat;
         document.querySelectorAll(".nav-item").forEach(n => n.classList.remove("active"));
         el.classList.add("active");
-        document.getElementById("sectionTitle").innerText = tab;
-        document.getElementById("statusMsg").style.display = "none";
-        renderGrid(library);
+        document.getElementById("sectionTitle").innerText = cat === "Tümü" ? "Türkiye Canlı TV Kanalları" : cat + " Kanalları";
+        renderChannels();
     }
 
-    function filterCurrent() {
+    function toggleFav(id, e) {
+        e.stopPropagation();
+        if (favs.includes(id)) favs = favs.filter(x => x !== id);
+        else favs.push(id);
+        localStorage.setItem("novatv_favs", JSON.stringify(favs));
+        renderChannels();
+    }
+
+    function renderChannels() {
         const q = document.getElementById("searchInput").value.toLowerCase();
-        renderGrid(allItems.filter(x => x.title.toLowerCase().includes(q)));
-    }
-
-    function setHero(item) {
-        if (!item) return;
-        document.getElementById("hero").style.backgroundImage = `url("${item.poster}")`;
-        document.getElementById("heroType").innerText = item.isLive ? "CANLI TV" : "ARŞİV";
-        document.getElementById("heroYear").innerText = item.year;
-        document.getElementById("heroTitle").innerText = item.title;
-        document.getElementById("heroDesc").innerText = item.desc.replace(/<[^>]*>?/gm, '');
-        document.getElementById("heroWatchBtn").onclick = () => playItem(item);
-        document.getElementById("heroLibBtn").onclick = () => toggleLibrary(item);
-        document.getElementById("heroLibBtn").innerText = library.some(x => x.id === item.id) ? "✓ Kitaplığımda" : "+ Kitaplığım";
-    }
-
-    function toggleLibrary(item) {
-        if (library.some(x => x.id === item.id)) library = library.filter(x => x.id !== item.id);
-        else library.unshift(item);
-        localStorage.setItem("novafix_tr_lib", JSON.stringify(library));
-        setHero(item);
-    }
-
-    function renderGrid(list) {
         const grid = document.getElementById("contentGrid");
         grid.innerHTML = "";
-        list.forEach(item => {
+
+        const filtered = channels.filter(c => {
+            const matchQ = c.title.toLowerCase().includes(q);
+            const matchCat = currentCat === "Tümü" || (currentCat === "Favoriler" && favs.includes(c.id)) || c.cat === currentCat;
+            return matchQ && matchCat;
+        });
+
+        document.getElementById("countLabel").innerText = filtered.length + " kanal";
+        filtered.forEach(c => {
+            const isFav = favs.includes(c.id);
             const card = document.createElement("div");
-            card.className = item.isLive ? "card" : "card poster";
-            const badge = item.isLive ? `<div class="live-dot">● CANLI</div>` : "";
-            card.innerHTML = `${badge}<img src="${item.poster}" onerror="this.src='${item.fallback}'" loading="lazy"><div class="card-body"><div class="card-title">${item.title}</div><div class="card-sub"><span>${item.year}</span><span class="star">${item.isLive ? 'HD YAYIN' : 'TAM SÜRÜM'}</span></div></div>`;
-            card.onclick = () => { setHero(item); playItem(item); };
+            card.className = "card";
+            card.innerHTML = `<div class="live-dot">● CANLI</div><button class="fav-btn" onclick="toggleFav('${c.id}', event)">${isFav ? '❤️' : '🤍'}</button><img src="${c.logo}" onerror="this.src='${c.fallback}'" loading="lazy"><div class="card-body"><div class="card-title">${c.title}</div><div class="card-sub">${c.cat} • HD Yayın</div></div>`;
+            card.onclick = () => playStream(c.title, c.url);
             grid.appendChild(card);
         });
     }
 
-    async function playItem(item) {
+    function playStream(title, url) {
         const modal = document.getElementById("playerModal");
         const video = document.getElementById("videoPlayer");
-        document.getElementById("playerTitle").innerText = item.title;
+        document.getElementById("playerTitle").innerText = title;
         modal.style.display = "flex";
 
         if (hlsInstance) { hlsInstance.destroy(); hlsInstance = null; }
 
-        if (item.localUrl) {
-            video.src = item.localUrl;
+        if (typeof Hls !== "undefined" && Hls.isSupported() && url.includes(".m3u8")) {
+            hlsInstance = new Hls();
+            hlsInstance.loadSource(url);
+            hlsInstance.attachMedia(video);
+            hlsInstance.on(Hls.Events.MANIFEST_PARSED, () => video.play());
+            hlsInstance.on(Hls.Events.ERROR, (ev, data) => {
+                if (data.fatal) {
+                    alert("Bu kanal şu anda yayın vermiyor veya tarayıcı engeline takıldı.");
+                    closePlayer();
+                }
+            });
+        } else {
+            video.src = url;
             video.play();
-            return;
-        }
-
-        if (item.isLive) {
-            if (typeof Hls !== "undefined" && Hls.isSupported()) {
-                hlsInstance = new Hls();
-                hlsInstance.loadSource(item.streamUrl);
-                hlsInstance.attachMedia(video);
-                hlsInstance.on(Hls.Events.MANIFEST_PARSED, () => video.play());
-            } else {
-                video.src = item.streamUrl;
-                video.play();
-            }
-            return;
-        }
-
-        try {
-            const res = await fetch(archiveMeta + item.id);
-            const meta = await res.json();
-            const files = meta.files || [];
-            const mp4 = files.find(f => f.name && f.name.endsWith(".mp4"));
-            if (mp4) {
-                video.src = archiveDown + item.id + "/" + encodeURIComponent(mp4.name);
-                video.play();
-            } else {
-                alert("Bu kayıt için uygun MP4 akışı bulunamadı.");
-                closePlayer();
-            }
-        } catch (e) {
-            closePlayer();
         }
     }
 
     function openLocalVideo(event) {
         const file = event.target.files.item(0);
         if (!file) return;
-        playItem({ id: "loc_" + Date.now(), title: file.name, isLive: false, localUrl: URL.createObjectURL(file) });
+        playStream(file.name, URL.createObjectURL(file));
     }
 
     function closePlayer() {
@@ -293,7 +213,7 @@
         modal.style.display = "none";
     }
 
-    loadLiveTV(document.querySelector(".nav-item"));
+    initChannels();
 </script>
 </body>
 </html>
