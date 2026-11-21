@@ -102,10 +102,11 @@
 </div>
 <script>
     const base = "https://googleapis.com";
-    function makePoster(title, c1, c2) {
-        const svg = `<svg xmlns='http://w3.org' width='400' height='600'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0%' stop-color='${c1}'/><stop offset='100%' stop-color='${c2}'/></linearGradient></defs><rect width='400' height='600' fill='url(%23g)'/><circle cx='200' cy='250' r='55' fill='rgba(255,255,255,0.18)'/><polygon points='185,225 185,275 230,250' fill='white'/><text x='200' y='460' font-family='sans-serif' font-size='32' font-weight='bold' fill='white' text-anchor='middle'>${title}</text><text x='200' y='505' font-family='sans-serif' font-size='16' fill='rgba(255,255,255,0.75)' text-anchor='middle'>NOVA SİNEMA HD</text></svg>`;
-        return "data:image/svg+xml;utf8," + svg;
+        function makePoster(title, c1, c2) {
+        const svg = `<svg xmlns="http://w3.org" width="400" height="600"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="${c1}"/><stop offset="100%" stop-color="${c2}"/></linearGradient></defs><rect width="400" height="600" fill="url(#g)"/><circle cx="200" cy="250" r="55" fill="rgba(255,255,255,0.2)"/><polygon points="185,225 185,275 230,250" fill="white"/><text x="200" y="450" font-family="sans-serif" font-size="30" font-weight="bold" fill="white" text-anchor="middle">${title}</text><text x="200" y="495" font-family="sans-serif" font-size="16" fill="rgba(255,255,255,0.8)" text-anchor="middle">NOVA SINEMA HD</text></svg>`;
+        return "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg);
     }
+
 
     const catalog = [
         { id: 1, title: "Sintel", type: "Filmler", badge: "FİLM", year: "2010", rating: "8,5", rank: 1, recommended: true, poster: makePoster("SINTEL", "#7f1d1d", "#09090b"), video: base + "Sintel.mp4", desc: "Genç bir savaşçı olan Sintel, dostluk kurduğu yavru ejderhayı bulmak için tehlikeli diyarlarda yolculuğa çıkar." },
