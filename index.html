@@ -14,37 +14,37 @@
         :root { --bg: #09090d; --panel: #12121a; --card: #181822; --red: #e50914; --green: #10b981; --text: #ffffff; --muted: #9ca3af; }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Roboto, sans-serif; }
         body { background: var(--bg); color: var(--text); overflow-x: hidden; padding-bottom: 60px; }
-        .topbar { position: sticky; top: 0; z-index: 300; background: rgba(9,9,13,0.96); backdrop-filter: blur(12px); padding: 12px 20px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+        .topbar { position: relative; z-index: 50; background: #0d0d14; padding: 12px 20px; display: flex; flex-wrap: wrap; align-items: center; gap: 10px; border-bottom: 1px solid rgba(255,255,255,0.1); }
         .brand { font-size: 22px; font-weight: 900; color: var(--red); letter-spacing: 1.5px; display: flex; align-items: center; gap: 6px; }
         .brand span { background: var(--green); color: #000; font-size: 10px; padding: 2px 6px; border-radius: 4px; font-weight: 900; }
-        .source-select { background: #1e1e2a; color: #fff; border: 1px solid rgba(255,255,255,0.2); padding: 7px 12px; border-radius: 8px; font-size: 13px; font-weight: 700; outline: none; cursor: pointer; }
+        .source-select { background: #1e1e2a; color: #fff; border: 1px solid rgba(255,255,255,0.2); padding: 8px 12px; border-radius: 8px; font-size: 13px; font-weight: 700; outline: none; cursor: pointer; }
         .tools { margin-left: auto; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
-        .btn-tool { background: #1e1e2a; color: #fff; border: 1px solid rgba(255,255,255,0.15); padding: 7px 12px; border-radius: 8px; font-size: 12px; font-weight: 700; cursor: pointer; white-space: nowrap; }
+        .btn-tool { background: #232332; color: #fff; border: 1px solid rgba(255,255,255,0.2); padding: 8px 14px; border-radius: 8px; font-size: 13px; font-weight: 700; cursor: pointer; white-space: nowrap; }
+        .btn-tool:active { transform: scale(0.96); }
         .btn-tool.red { background: var(--red); border-color: var(--red); }
-        .search-box { background: #1e1e2a; border: 1px solid rgba(255,255,255,0.15); color: #fff; padding: 7px 14px; border-radius: 20px; font-size: 13px; width: 165px; outline: none; }
-        .cat-bar { display: flex; gap: 8px; overflow-x: auto; padding: 12px 20px; background: var(--panel); border-bottom: 1px solid rgba(255,255,255,0.05); scrollbar-width: none; }
+        .search-box { background: #1e1e2a; border: 1px solid rgba(255,255,255,0.2); color: #fff; padding: 8px 14px; border-radius: 20px; font-size: 13px; width: 165px; outline: none; }
+        .cat-bar { display: flex; gap: 8px; overflow-x: auto; padding: 12px 20px; background: var(--panel); border-bottom: 1px solid rgba(255,255,255,0.06); scrollbar-width: none; }
         .cat-bar::-webkit-scrollbar { display: none; }
-        .cat-pill { background: #1d1d29; color: #ccc; padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+        .cat-pill { background: #1d1d29; color: #ccc; border: none; padding: 7px 14px; border-radius: 20px; font-size: 13px; font-weight: 600; cursor: pointer; white-space: nowrap; }
         .cat-pill.active { background: var(--red); color: #fff; }
         .stats-bar { padding: 16px 20px 10px; display: flex; justify-content: space-between; align-items: center; }
         .stats-bar h2 { font-size: 18px; font-weight: 800; }
         .badge-count { background: rgba(16,185,129,0.15); color: #34d399; border: 1px solid rgba(16,185,129,0.4); padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: 700; }
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(155px, 1fr)); gap: 14px; padding: 0 20px; }
-        .card { background: var(--card); border-radius: 10px; overflow: hidden; cursor: pointer; position: relative; border: 1px solid rgba(255,255,255,0.06); transition: transform 0.2s; }
-        .card:hover { transform: translateY(-3px); border-color: var(--green); }
+        .card { background: var(--card); border-radius: 10px; overflow: hidden; cursor: pointer; position: relative; border: 1px solid rgba(255,255,255,0.08); }
         .card img { width: 100%; height: 110px; object-fit: contain; background: #0f0f15; display: block; padding: 12px; }
         .live-tag { position: absolute; top: 8px; left: 8px; background: var(--green); color: #000; font-size: 9px; font-weight: 900; padding: 2px 6px; border-radius: 4px; }
         .fav-icon { position: absolute; top: 6px; right: 6px; background: rgba(0,0,0,0.65); border: none; color: #fff; font-size: 13px; padding: 4px 7px; border-radius: 50%; cursor: pointer; }
         .card-info { padding: 10px; }
         .card-title { font-size: 13px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .card-meta { font-size: 11px; color: var(--muted); margin-top: 3px; }
+        .modal-box { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 900; align-items: center; justify-content: center; padding: 20px; }
         .player-overlay { display: none; position: fixed; inset: 0; background: #000; z-index: 999; flex-direction: column; }
-        .player-header { padding: 14px 20px; background: linear-gradient(to bottom, rgba(0,0,0,0.95), transparent); display: flex; justify-content: space-between; align-items: center; z-index: 10; }
-        .player-controls { display: flex; gap: 8px; }
-        .p-btn { background: rgba(255,255,255,0.18); color: #fff; border: none; padding: 7px 14px; border-radius: 6px; font-size: 12px; font-weight: 700; cursor: pointer; }
+        .player-header { padding: 14px 20px; background: #111; display: flex; justify-content: space-between; align-items: center; }
+        .p-btn { background: #2b2b38; color: #fff; border: none; padding: 8px 14px; border-radius: 6px; font-size: 12px; font-weight: 700; cursor: pointer; }
         .p-btn.close { background: var(--red); }
         video { width: 100%; flex: 1; background: #000; max-height: 88vh; }
-        .loader { text-align: center; padding: 50px; color: var(--muted); font-size: 15px; }
+        .loader { text-align: center; padding: 40px; color: var(--muted); font-size: 15px; }
     </style>
 </head>
 <body>
@@ -60,26 +60,25 @@
         <option value="countries/de.m3u">🇩🇪 Almanya Kanalları</option>
         <option value="countries/us.m3u">🇺🇸 ABD Kanalları</option>
     </select>
-        <div class="tools">
-        <button class="btn-tool red" onclick="document.getElementById('pasteModal').style.display='flex'">📋 M3U Yapıştır</button>
-        <input type="file" id="m3uFileInput" accept=".m3u,.m3u8,.txt" style="display:none" onchange="uploadM3UFile(event)">
-        <button class="btn-tool" onclick="document.getElementById('m3uFileInput').click()">📁 Dosya Seç</button>
-        <input type="file" id="localVideoInput" accept="video/*" style="display:none" onchange="openLocalVideo(event)">
-        <button class="btn-tool" onclick="document.getElementById('localVideoInput').click()">📂 Cihazdan Video</button>
+    <div class="tools">
+        <button type="button" class="btn-tool red" onclick="openPasteModal()">📋 M3U Yapıştır</button>
+        <button type="button" class="btn-tool" onclick="triggerM3UFile()">📁 Dosya Seç</button>
+        <button type="button" class="btn-tool" onclick="triggerLocalVideo()">📂 Cihazdan Video</button>
         <input type="text" id="searchInput" class="search-box" placeholder="Kanal ara..." oninput="renderList()">
     </div>
-
+    <input type="file" id="m3uFileInput" accept=".m3u,.m3u8,.txt" style="display:none" onchange="uploadM3UFile(event)">
+    <input type="file" id="localVideoInput" accept="video/*" style="display:none" onchange="openLocalVideo(event)">
 </header>
 
 <div class="cat-bar">
-    <div class="cat-pill active" onclick="setSubCat('Tümü', this)">Tümü</div>
-    <div class="cat-pill" onclick="setSubCat('Ulusal', this)">Ulusal & Genel</div>
-    <div class="cat-pill" onclick="setSubCat('Çocuk', this)">Çocuk & Çizgi Film</div>
-    <div class="cat-pill" onclick="setSubCat('Haber', this)">Haber</div>
-    <div class="cat-pill" onclick="setSubCat('Belgesel', this)">Belgesel</div>
-    <div class="cat-pill" onclick="setSubCat('Sinema', this)">Sinema</div>
-    <div class="cat-pill" onclick="setSubCat('Müzik', this)">Müzik</div>
-    <div class="cat-pill" onclick="setSubCat('Favoriler', this)">❤️ Favorilerim</div>
+    <button type="button" class="cat-pill active" onclick="setSubCat('Tümü', this)">Tümü</button>
+    <button type="button" class="cat-pill" onclick="setSubCat('Ulusal', this)">Ulusal & Genel</button>
+    <button type="button" class="cat-pill" onclick="setSubCat('Çocuk', this)">Çocuk & Çizgi Film</button>
+    <button type="button" class="cat-pill" onclick="setSubCat('Haber', this)">Haber</button>
+    <button type="button" class="cat-pill" onclick="setSubCat('Belgesel', this)">Belgesel</button>
+    <button type="button" class="cat-pill" onclick="setSubCat('Sinema', this)">Sinema</button>
+    <button type="button" class="cat-pill" onclick="setSubCat('Müzik', this)">Müzik</button>
+    <button type="button" class="cat-pill" onclick="setSubCat('Favoriler', this)">❤️ Favorilerim</button>
 </div>
 
 <div class="stats-bar">
@@ -90,12 +89,23 @@
 <div id="statusMsg" class="loader">Açık kanallar hazırlanıyor...</div>
 <div class="grid" id="channelGrid"></div>
 
+<div id="pasteModal" class="modal-box">
+    <div style="background:#16161f; border:1px solid #e50914; border-radius:12px; padding:20px; width:100%; max-width:520px;">
+        <h3 style="margin-bottom:10px; font-size:17px;">📋 M3U Metni veya Linki Yapıştır</h3>
+        <textarea id="m3uPasteArea" rows="7" placeholder="#EXTM3U listesini buraya yapıştırın veya doğrudan .m3u linkini girin..." style="width:100%; background:#0d0d12; color:#fff; border:1px solid #444; border-radius:8px; padding:10px; font-size:13px; outline:none; margin-bottom:12px;"></textarea>
+        <div style="display:flex; gap:10px; justify-content:flex-end;">
+            <button type="button" class="p-btn" onclick="closePasteModal()">İptal</button>
+            <button type="button" class="p-btn close" onclick="processPastedM3U()">✓ Kanalları Aktar</button>
+        </div>
+    </div>
+</div>
+
 <div class="player-overlay" id="playerModal">
     <div class="player-header">
         <span id="playingName" style="font-weight:800; font-size:16px;">Kanal Adı</span>
-        <div class="player-controls">
-            <button class="p-btn" onclick="togglePiP()">🗗 Küçük Pencere</button>
-            <button class="p-btn close" onclick="closePlayer()">✕ Kapat</button>
+        <div style="display:flex; gap:8px;">
+            <button type="button" class="p-btn" onclick="togglePiP()">🗗 Küçük Pencere</button>
+            <button type="button" class="p-btn close" onclick="closePlayer()">✕ Kapat</button>
         </div>
     </div>
     <video id="videoPlayer" controls playsinline preload="auto"></video>
@@ -106,6 +116,14 @@
     let currentSubCat = "Tümü";
     let favorites = JSON.parse(localStorage.getItem("novapro_favs") || "[]");
     let hls = null;
+
+    function openPasteModal() {
+        document.getElementById("pasteModal").style.display = "flex";
+        setTimeout(() => document.getElementById("m3uPasteArea").focus(), 100);
+    }
+    function closePasteModal() { document.getElementById("pasteModal").style.display = "none"; }
+    function triggerM3UFile() { document.getElementById("m3uFileInput").click(); }
+    function triggerLocalVideo() { document.getElementById("localVideoInput").click(); }
 
     function createLogo(name) {
         const c = document.createElement("canvas");
@@ -136,10 +154,7 @@
                 const info = lines.at(i);
                 let stream = "";
                 for (let j = i + 1; j < lines.length; j++) {
-                    if (!lines.at(j).startsWith("#")) {
-                        stream = lines.at(j);
-                        break;
-                    }
+                    if (!lines.at(j).startsWith("#")) { stream = lines.at(j); break; }
                 }
                 const title = info.split(",").at(-1).replace(/\(.*?\)/g, "").trim();
                 const logoMatch = info.match(/tvg-logo="([^"]+)"/);
@@ -160,13 +175,39 @@
         return parsed;
     }
 
+    async function processPastedM3U() {
+        const raw = document.getElementById("m3uPasteArea").value.trim();
+        if (!raw) return;
+        closePasteModal();
+        if (raw.startsWith("http") && !raw.includes("\n")) {
+            document.getElementById("statusMsg").style.display = "block";
+            document.getElementById("statusMsg").innerText = "M3U bağlantısı çekiliyor...";
+            try {
+                const res = await fetch(raw);
+                const text = await res.text();
+                allChannels = parseM3U(text, true);
+                document.getElementById("packTitle").innerText = "Yapıştırılan M3U Linki";
+                document.getElementById("statusMsg").style.display = "none";
+                setSubCat("Tümü", document.querySelector(".cat-pill"));
+            } catch (e) {
+                alert("Bu sunucu dış bağlantıya kapalı. Linki tarayıcıda açıp içindeki yazıyı kopyalayarak buraya metin olarak yapıştırın.");
+                document.getElementById("statusMsg").style.display = "none";
+            }
+            return;
+        }
+        allChannels = parseM3U(raw, true);
+        document.getElementById("packTitle").innerText = "Yapıştırılan M3U Listesi";
+        document.getElementById("statusMsg").style.display = "none";
+        setSubCat("Tümü", document.querySelector(".cat-pill"));
+        if (allChannels.length === 0) alert("Yapıştırılan metinde geçerli #EXTINF kanal formatı bulunamadı.");
+    }
+
     async function loadPackage(path) {
         const select = document.getElementById("packSelect");
         document.getElementById("packTitle").innerText = select.options.item(select.selectedIndex).text;
         document.getElementById("statusMsg").style.display = "block";
         document.getElementById("statusMsg").innerText = "Açık kanallar yükleniyor...";
         document.getElementById("channelGrid").innerHTML = "";
-
         try {
             const res = await fetch(iptvBase + path);
             const text = await res.text();
@@ -174,7 +215,7 @@
             document.getElementById("statusMsg").style.display = "none";
             setSubCat("Tümü", document.querySelector(".cat-pill"));
         } catch (e) {
-            document.getElementById("statusMsg").innerText = "Liste yüklenemedi, lütfen internet bağlantınızı kontrol edin.";
+            document.getElementById("statusMsg").innerText = "Liste yüklenemedi, internet bağlantınızı kontrol edin.";
         }
     }
 
@@ -187,9 +228,6 @@
             document.getElementById("packTitle").innerText = file.name;
             document.getElementById("statusMsg").style.display = "none";
             setSubCat("Tümü", document.querySelector(".cat-pill"));
-            if (allChannels.length === 0) {
-                alert("Seçilen M3U dosyasında geçerli bir yayın linki bulunamadı.");
-            }
         };
         reader.readAsText(file);
         event.target.value = "";
@@ -216,19 +254,17 @@
         const q = document.getElementById("searchInput").value.toLowerCase();
         const grid = document.getElementById("channelGrid");
         grid.innerHTML = "";
-
         const filtered = allChannels.filter(c => {
             const matchQ = c.title.toLowerCase().includes(q);
             const matchCat = currentSubCat === "Tümü" || (currentSubCat === "Favoriler" && favorites.includes(c.id)) || c.cat === currentSubCat;
             return matchQ && matchCat;
         });
-
         document.getElementById("countBadge").innerText = filtered.length + " Kanal";
         filtered.slice(0, 500).forEach(c => {
             const isFav = favorites.includes(c.id);
             const card = document.createElement("div");
             card.className = "card";
-            card.innerHTML = `<div class="live-tag">● CANLI</div><button class="fav-icon" onclick="toggleFav('${c.id}', event)">${isFav ? '❤️' : '🤍'}</button><img src="${c.logo}" onerror="this.src='${c.fallback}'" loading="lazy"><div class="card-info"><div class="card-title">${c.title}</div><div class="card-meta">${c.cat} • Yayın</div></div>`;
+            card.innerHTML = `<div class="live-tag">● CANLI</div><button type="button" class="fav-icon" onclick="toggleFav('${c.id}', event)">${isFav ? '❤️' : '🤍'}</button><img src="${c.logo}" onerror="this.src='${c.fallback}'" loading="lazy"><div class="card-info"><div class="card-title">${c.title}</div><div class="card-meta">${c.cat} • Yayın</div></div>`;
             card.onclick = () => playStream(c);
             grid.appendChild(card);
         });
@@ -239,19 +275,14 @@
         const video = document.getElementById("videoPlayer");
         document.getElementById("playingName").innerText = channel.title;
         modal.style.display = "flex";
-
         if (hls) { hls.destroy(); hls = null; }
-
         if (typeof Hls !== "undefined" && Hls.isSupported() && channel.url.includes(".m3u8")) {
             hls = new Hls({ manifestLoadingTimeOut: 10000 });
             hls.loadSource(channel.url);
             hls.attachMedia(video);
             hls.on(Hls.Events.MANIFEST_PARSED, () => video.play().catch(() => {}));
             hls.on(Hls.Events.ERROR, (ev, data) => {
-                if (data.fatal) {
-                    alert("Bu yayın şu anda aktif değil veya HTTPS tarayıcı güvenlik engeline takıldı (Android APK sürümünde HTTP yayınlar da açılır).");
-                    closePlayer();
-                }
+                if (data.fatal) { alert("Bu yayın şu anda aktif değil veya tarayıcı güvenlik engeline takıldı."); closePlayer(); }
             });
         } else {
             video.src = channel.url;
@@ -283,4 +314,3 @@
     loadPackage("countries/tr.m3u");
 </script>
 </body>
-</html>
