@@ -112,6 +112,7 @@
     <video id="videoPlayer" controls playsinline></video>
     <iframe id="ytPlayer" style="display:none; width:100%; height:80vh; border:none;" allow="autoplay; fullscreen" allowfullscreen></iframe>
 </div>
+
 <script>
     const w3 = atob("aHR0cHM6Ly9tZWRpYS53My5vcmcvMjAxMC8wNS8=");
     function makePoster(title, c1, c2) {
@@ -140,31 +141,30 @@
         { id: 5, title: "Doğa & Uzay TV", type: "Canlı TV", badge: "CANLI TV", year: "2026", rating: "9,1", rank: 5, recommended: true, poster: makePoster("CANLI YAYIN", "#9a3412", "#09090b"), video: w3 + "bunny/movie.mp4", desc: "7/24 kesintisiz belgesel ve manzara akışı." }
     ];
 
-    let customMovies = JSON.parse(localStorage.getItem("novafix_custom") || "[]").map(m => ({ ...m, poster: makePoster(m.title.toUpperCase(), "#0f766e", "#09090b") }));
-    let catalog = [...defaultCatalog, ...customMovies];
+    let customMovies = JSON.parse(localStorage.getItem("novafix_custom") || "[]").map(m => ({ ...m, isCustom: true, poster: makePoster(m.title.toUpperCase(), "#0f766e", "#09090b") }));
+    let catalog = [...customMovies, ...defaultCatalog];
     let activeTab = "Ana Sayfa";
     let library = JSON.parse(localStorage.getItem("novafix_lib") || "[]");
     let continueList = JSON.parse(localStorage.getItem("novafix_cont") || "{}");
     let currentPlayingId = null;
+    function deleteMovie(id, event) {
+        event.stopPropagation();
+        if (!confirm("Bu içeriği listeden silmek istediğinize emin misiniz?")) return;
+        catalog = catalog.filter(m => m.id !== id);
+        const raw = JSON.parse(localStorage.getItem("novafix_custom") || "[]").filter(m => m.id !== id);
+        localStorage.setItem("novafix_custom", JSON.stringify(raw));
+        delete continueList[id];
+        localStorage.setItem("novafix_cont", JSON.stringify(continueList));
+        setHero(catalog.at(0));
+        renderGrid();
+    }
 
     function openLocalVideo(event) {
         const file = event.target.files.item(0);
         if (!file) return;
         const localUrl = URL.createObjectURL(file);
         const cleanName = file.name.replace(/\.[^/.]+$/, "");
-        const newItem = {
-            id: Date.now(),
-            title: cleanName,
-            type: "Filmler",
-            badge: "YEREL HD",
-            year: "2026",
-            rating: "9,5",
-            rank: catalog.length + 1,
-            recommended: true,
-            poster: makePoster(cleanName.toUpperCase(), "#0f766e", "#09090b"),
-            video: localUrl,
-            desc: "Cihazınızdan seçilen yerel video dosyası."
-        };
+        const newItem = { id: Date.now(), title: cleanName, type: "Filmler", badge: "YEREL HD", year: "2026", rating: "9,5", rank: catalog.length + 1, recommended: true, isCustom: true, poster: makePoster(cleanName.toUpperCase(), "#0f766e", "#09090b"), video: localUrl, desc: "Cihazınızdan seçilen yerel video dosyası." };
         catalog.unshift(newItem);
         setHero(newItem);
         renderGrid();
@@ -177,8 +177,8 @@
         const url = prompt("Doğrudan .mp4 veya YouTube Bağlantısını Yapıştırın:");
         if (!url) return;
         const raw = JSON.parse(localStorage.getItem("novafix_custom") || "[]");
-        const newItem = { id: Date.now(), title: title, type: "Filmler", badge: "ÖZEL", year: "2026", rating: "9,0", rank: catalog.length + 1, recommended: true, video: url, desc: "Kullanıcı tarafından eklenen video bağlantısı." };
-        raw.push(newItem);
+        const newItem = { id: Date.now(), title: title, type: "Filmler", badge: "ÖZEL", year: "2026", rating: "9,0", rank: catalog.length + 1, recommended: true, isCustom: true, video: url, desc: "Kullanıcı tarafından eklenen video bağlantısı." };
+        raw.unshift(newItem);
         localStorage.setItem("novafix_custom", JSON.stringify(raw));
         catalog.unshift({ ...newItem, poster: makePoster(title.toUpperCase(), "#0f766e", "#09090b") });
         renderGrid();
@@ -238,7 +238,8 @@
             const card = document.createElement("div");
             card.className = "card";
             const savedSec = continueList[item.id] ? Math.floor(continueList[item.id]) + " sn izlendi" : item.year;
-            card.innerHTML = `${activeTab === "Top 25" ? `<div class="rank-badge">#${item.rank}</div>` : ""}<img src="${item.poster}" alt="${item.title}"><div class="card-body"><div class="card-title">${item.title}</div><div class="card-sub"><span>${savedSec}</span><span class="star">★ ${item.rating}</span></div></div>`;
+            const delBtn = item.isCustom ? `<button onclick="deleteMovie(${item.id}, event)" style="position:absolute; top:8px; right:8px; background:rgba(229,9,20,0.9); color:#fff; border:none; border-radius:6px; padding:4px 8px; font-size:11px; font-weight:700; cursor:pointer; z-index:5;">🗑️ Sil</button>` : "";
+            card.innerHTML = `${activeTab === "Top 25" ? `<div class="rank-badge">#${item.rank}</div>` : ""}${delBtn}<img src="${item.poster}" alt="${item.title}"><div class="card-body"><div class="card-title">${item.title}</div><div class="card-sub"><span>${savedSec}</span><span class="star">★ ${item.rating}</span></div></div>`;
             card.onclick = () => playContent(item);
             grid.appendChild(card);
         });
@@ -251,12 +252,11 @@
         const yt = document.getElementById("ytPlayer");
         document.getElementById("playerTitle").innerText = item.title;
         modal.style.display = "flex";
-
         const ytId = getYouTubeId(item.video);
         if (ytId) {
             video.style.display = "none";
             yt.style.display = "block";
-            yt.src = "https://youtube.com" + ytId + "?autoplay=1";
+            yt.src = atob("aHR0cHM6Ly93d3cueW91dHViZS5jb20vZW1iZWQv") + ytId + "?autoplay=1";
         } else {
             yt.style.display = "none";
             video.style.display = "block";
