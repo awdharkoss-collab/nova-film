@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>NOVA SİNEMA</title>
+    <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="NOVA SİNEMA">
@@ -99,13 +100,19 @@
     </div>
     <video id="videoPlayer" controls playsinline></video>
 </div>
-    </script>
-const catalog = [
-        { id: 1, title: "Sintel", type: "Filmler", badge: "FİLM", year: "2010", rating: "8,5", rank: 1, recommended: true, poster: "https://googleapis.com", backdrop: "https://googleapis.com", video: "https://googleapis.com", desc: "Genç bir savaşçı olan Sintel, dostluk kurduğu yavru ejderhayı bulmak için tehlikeli diyarlarda zorlu bir yolculuğa çıkar." },
-        { id: 2, title: "Tears of Steel", type: "Filmler", badge: "FİLM", year: "2012", rating: "7,9", rank: 2, recommended: true, poster: "https://googleapis.com", backdrop: "https://googleapis.com", video: "https://googleapis.com", desc: "Amsterdam'da bir grup bilim insanı ve savaşçı, dünyayı ele geçiren robotlara karşı geçmişi değiştirmeye çalışır." },
-        { id: 3, title: "Big Buck Bunny", type: "Diziler", badge: "DİZİ", year: "2008", rating: "8,2", rank: 3, recommended: false, poster: "https://googleapis.com", backdrop: "https://googleapis.com", video: "https://googleapis.com", desc: "Devasa ama yumuşak kalpli bir tavşanın ormandaki yaramaz kemirgenlere karşı verdiği eğlenceli mücadele." },
-        { id: 4, title: "Elephants Dream", type: "Filmler", badge: "KLASİK", year: "2006", rating: "8,0", rank: 4, recommended: true, poster: "https://googleapis.com", backdrop: "https://googleapis.com", video: "https://googleapis.com", desc: "İki farklı karakterin mekanik ve gizemli bir dünyadaki sürreal yolculuğu." },
-        { id: 5, title: "Doğa & Uzay Canlı Yayın", type: "Canlı TV", badge: "CANLI TV", year: "2026", rating: "9,1", rank: 5, recommended: true, poster: "https://googleapis.com", backdrop: "https://googleapis.com", video: "https://googleapis.com", desc: "7/24 kesintisiz belgesel ve manzara akışı." }
+<script>
+    const base = "https://googleapis.com";
+    function makePoster(title, c1, c2) {
+        const svg = `<svg xmlns='http://w3.org' width='400' height='600'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0%' stop-color='${c1}'/><stop offset='100%' stop-color='${c2}'/></linearGradient></defs><rect width='400' height='600' fill='url(%23g)'/><circle cx='200' cy='250' r='55' fill='rgba(255,255,255,0.18)'/><polygon points='185,225 185,275 230,250' fill='white'/><text x='200' y='460' font-family='sans-serif' font-size='32' font-weight='bold' fill='white' text-anchor='middle'>${title}</text><text x='200' y='505' font-family='sans-serif' font-size='16' fill='rgba(255,255,255,0.75)' text-anchor='middle'>NOVA SİNEMA HD</text></svg>`;
+        return "data:image/svg+xml;utf8," + svg;
+    }
+
+    const catalog = [
+        { id: 1, title: "Sintel", type: "Filmler", badge: "FİLM", year: "2010", rating: "8,5", rank: 1, recommended: true, poster: makePoster("SINTEL", "#7f1d1d", "#09090b"), video: base + "Sintel.mp4", desc: "Genç bir savaşçı olan Sintel, dostluk kurduğu yavru ejderhayı bulmak için tehlikeli diyarlarda yolculuğa çıkar." },
+        { id: 2, title: "Tears of Steel", type: "Filmler", badge: "FİLM", year: "2012", rating: "7,9", rank: 2, recommended: true, poster: makePoster("TEARS OF STEEL", "#1e3a8a", "#09090b"), video: base + "TearsOfSteel.mp4", desc: "Amsterdam'da bir grup bilim insanı ve savaşçı, dünyayı ele geçiren robotlara karşı geçmişi değiştirmeye çalışır." },
+        { id: 3, title: "Big Buck Bunny", type: "Diziler", badge: "DİZİ", year: "2008", rating: "8,2", rank: 3, recommended: false, poster: makePoster("BIG BUCK BUNNY", "#14532d", "#09090b"), video: base + "BigBuckBunny.mp4", desc: "Devasa ama yumuşak kalpli bir tavşanın ormandaki yaramaz kemirgenlere karşı verdiği eğlenceli mücadele." },
+        { id: 4, title: "Elephants Dream", type: "Filmler", badge: "KLASİK", year: "2006", rating: "8,0", rank: 4, recommended: true, poster: makePoster("ELEPHANTS DREAM", "#581c87", "#09090b"), video: base + "ElephantsDream.mp4", desc: "İki farklı karakterin mekanik ve gizemli bir dünyadaki sürreal yolculuğu." },
+        { id: 5, title: "Doğa & Uzay TV", type: "Canlı TV", badge: "CANLI TV", year: "2026", rating: "9,1", rank: 5, recommended: true, poster: makePoster("CANLI YAYIN", "#9a3412", "#09090b"), video: base + "ForBiggerEscapes.mp4", desc: "7/24 kesintisiz belgesel ve manzara akışı." }
     ];
 
     let activeTab = "Ana Sayfa";
@@ -115,7 +122,7 @@ const catalog = [
 
     function setHero(item) {
         if (!item) return;
-        document.getElementById("hero").style.backgroundImage = `url('${item.backdrop}')`;
+        document.getElementById("hero").style.backgroundImage = `url("${item.poster}")`;
         document.getElementById("heroType").innerText = item.badge;
         document.getElementById("heroRating").innerText = `★ ${item.rating}`;
         document.getElementById("heroYear").innerText = item.year;
@@ -196,4 +203,3 @@ const catalog = [
 </script>
 </body>
 </html>
-
