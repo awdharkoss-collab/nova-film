@@ -60,13 +60,15 @@
         <option value="countries/de.m3u">🇩🇪 Almanya Kanalları</option>
         <option value="countries/us.m3u">🇺🇸 ABD Kanalları</option>
     </select>
-    <div class="tools">
+        <div class="tools">
+        <button class="btn-tool red" onclick="document.getElementById('pasteModal').style.display='flex'">📋 M3U Yapıştır</button>
         <input type="file" id="m3uFileInput" accept=".m3u,.m3u8,.txt" style="display:none" onchange="uploadM3UFile(event)">
-        <button class="btn-tool" onclick="document.getElementById('m3uFileInput').click()">📁 M3U Yükle</button>
+        <button class="btn-tool" onclick="document.getElementById('m3uFileInput').click()">📁 Dosya Seç</button>
         <input type="file" id="localVideoInput" accept="video/*" style="display:none" onchange="openLocalVideo(event)">
-        <button class="btn-tool red" onclick="document.getElementById('localVideoInput').click()">📂 Cihazdan Video</button>
+        <button class="btn-tool" onclick="document.getElementById('localVideoInput').click()">📂 Cihazdan Video</button>
         <input type="text" id="searchInput" class="search-box" placeholder="Kanal ara..." oninput="renderList()">
     </div>
+
 </header>
 
 <div class="cat-bar">
