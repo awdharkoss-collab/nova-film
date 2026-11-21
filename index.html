@@ -101,11 +101,24 @@
     <video id="videoPlayer" controls playsinline></video>
 </div>
 <script>
-    const base = "https://googleapis.com";
         function makePoster(title, c1, c2) {
-        const svg = `<svg xmlns="http://w3.org" width="400" height="600"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="${c1}"/><stop offset="100%" stop-color="${c2}"/></linearGradient></defs><rect width="400" height="600" fill="url(#g)"/><circle cx="200" cy="250" r="55" fill="rgba(255,255,255,0.2)"/><polygon points="185,225 185,275 230,250" fill="white"/><text x="200" y="450" font-family="sans-serif" font-size="30" font-weight="bold" fill="white" text-anchor="middle">${title}</text><text x="200" y="495" font-family="sans-serif" font-size="16" fill="rgba(255,255,255,0.8)" text-anchor="middle">NOVA SINEMA HD</text></svg>`;
-        return "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg);
+        const c = document.createElement("canvas");
+        c.width = 400; c.height = 600;
+        const ctx = c.getContext("2d");
+        const g = ctx.createLinearGradient(0, 0, 400, 600);
+        g.addColorStop(0, c1); g.addColorStop(1, c2);
+        ctx.fillStyle = g; ctx.fillRect(0, 0, 400, 600);
+        ctx.fillStyle = "rgba(255,255,255,0.2)";
+        ctx.beginPath(); ctx.arc(200, 240, 55, 0, Math.PI * 2); ctx.fill();
+        ctx.fillStyle = "#ffffff";
+        ctx.beginPath(); ctx.moveTo(185, 215); ctx.lineTo(185, 265); ctx.lineTo(230, 240); ctx.fill();
+        ctx.font = "bold 28px sans-serif"; ctx.textAlign = "center";
+        ctx.fillText(title, 200, 450);
+        ctx.font = "16px sans-serif"; ctx.fillStyle = "rgba(255,255,255,0.75)";
+        ctx.fillText("NOVA SINEMA HD", 200, 490);
+        return c.toDataURL("image/png");
     }
+
 
 
     const catalog = [
