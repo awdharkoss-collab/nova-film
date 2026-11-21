@@ -101,7 +101,7 @@
 </div>
 <script>
     const catalog = [
-        { id: 1, title: "Sintel", type: "Filmler", badge: "FİLM", year: "2010", rating: "8,5", rank: 1, recommended: true, poster: "https://unsplash.com", backdrop: "https://unsplash.com", video: "https://googleapis.com", desc: "Genç bir savaşçı olan Sintel, dostluk kurduğu yavru ejderhayı bulmak için tehlikeli diyarlarda zorlu bir yolculuğa çıkar." },
+        { id: 1, title: "Sintel", type: "Filmler", badge: "FİLM", year: "2010", rating: "8,5", rank: 1, recommended: true, poster: "https://unsplash.com", backdrop: "https://unsplash.com", video: "https://googleapis.com", desc: "Genç bir savaşçı olan Sintel, dostluk kurduğu yavru ejderhayı bulmak için tehlikeli diyarlarda yolculuğa çıkar." },
         { id: 2, title: "Tears of Steel", type: "Filmler", badge: "FİLM", year: "2012", rating: "7,9", rank: 2, recommended: true, poster: "https://unsplash.com", backdrop: "https://unsplash.com", video: "https://googleapis.com", desc: "Amsterdam'da bir grup bilim insanı ve savaşçı, dünyayı ele geçiren robotlara karşı geçmişi değiştirmeye çalışır." },
         { id: 3, title: "Big Buck Bunny", type: "Diziler", badge: "DİZİ", year: "2008", rating: "8,2", rank: 3, recommended: false, poster: "https://unsplash.com", backdrop: "https://unsplash.com", video: "https://googleapis.com", desc: "Devasa ama yumuşak kalpli bir tavşanın ormandaki yaramaz kemirgenlere karşı verdiği eğlenceli mücadele." },
         { id: 4, title: "Gece Yarısı Gölgeleri", type: "Filmler", badge: "KLASİK", year: "1968", rating: "8,0", rank: 4, recommended: true, poster: "https://unsplash.com", backdrop: "https://unsplash.com", video: "https://archive.org", desc: "Sinema tarihinin en ikonik gerilim klasiklerinden biri." },
@@ -131,7 +131,7 @@
         if (library.includes(id)) library = library.filter(x => x !== id);
         else library.push(id);
         localStorage.setItem("novafix_lib", JSON.stringify(library));
-        setHero(catalog[0]);
+        setHero(catalog.at(0));
         renderGrid();
     }
 
@@ -191,8 +191,9 @@
         renderGrid();
     }
 
-    setHero(catalog[0]);
+    setHero(catalog.at(0));
     renderGrid();
 </script>
 </body>
 </html>
+
