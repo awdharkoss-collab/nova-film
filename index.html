@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>NOVA TV PRO • Küresel Canlı Yayın & Medya Merkezi</title>
+    <title>NOVA TV PRO • Doğrulanmış Canlı Yayın</title>
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -11,43 +11,33 @@
     <link rel="apple-touch-icon" href="logo.png">
     <script src="https://cloudflare.com"></script>
     <style>
-        :root { --bg: #09090d; --panel: #12121a; --card: #181822; --red: #e50914; --text: #ffffff; --muted: #9ca3af; }
+        :root { --bg: #09090d; --panel: #12121a; --card: #181822; --red: #e50914; --green: #10b981; --text: #ffffff; --muted: #9ca3af; }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Roboto, sans-serif; }
         body { background: var(--bg); color: var(--text); overflow-x: hidden; padding-bottom: 60px; }
-        
-        /* Üst Bar */
         .topbar { position: sticky; top: 0; z-index: 300; background: rgba(9,9,13,0.96); backdrop-filter: blur(12px); padding: 12px 20px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px; border-bottom: 1px solid rgba(255,255,255,0.08); }
         .brand { font-size: 22px; font-weight: 900; color: var(--red); letter-spacing: 1.5px; display: flex; align-items: center; gap: 6px; }
-        .brand span { background: var(--red); color: #fff; font-size: 10px; padding: 2px 6px; border-radius: 4px; }
+        .brand span { background: var(--green); color: #000; font-size: 10px; padding: 2px 6px; border-radius: 4px; font-weight: 900; }
         .source-select { background: #1e1e2a; color: #fff; border: 1px solid rgba(255,255,255,0.2); padding: 7px 12px; border-radius: 8px; font-size: 13px; font-weight: 700; outline: none; cursor: pointer; }
         .tools { margin-left: auto; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
         .btn-tool { background: #1e1e2a; color: #fff; border: 1px solid rgba(255,255,255,0.15); padding: 7px 12px; border-radius: 8px; font-size: 12px; font-weight: 700; cursor: pointer; white-space: nowrap; }
         .btn-tool.red { background: var(--red); border-color: var(--red); }
-        .search-box { background: #1e1e2a; border: 1px solid rgba(255,255,255,0.15); color: #fff; padding: 7px 14px; border-radius: 20px; font-size: 13px; width: 170px; outline: none; }
-
-        /* Kategori Çubuğu */
+        .search-box { background: #1e1e2a; border: 1px solid rgba(255,255,255,0.15); color: #fff; padding: 7px 14px; border-radius: 20px; font-size: 13px; width: 165px; outline: none; }
         .cat-bar { display: flex; gap: 8px; overflow-x: auto; padding: 12px 20px; background: var(--panel); border-bottom: 1px solid rgba(255,255,255,0.05); scrollbar-width: none; }
         .cat-bar::-webkit-scrollbar { display: none; }
-        .cat-pill { background: #1d1d29; color: #ccc; padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 600; cursor: pointer; white-space: nowrap; transition: 0.2s; }
+        .cat-pill { background: #1d1d29; color: #ccc; padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 600; cursor: pointer; white-space: nowrap; }
         .cat-pill.active { background: var(--red); color: #fff; }
-
-        /* İstatistik & Başlık */
         .stats-bar { padding: 16px 20px 10px; display: flex; justify-content: space-between; align-items: center; }
         .stats-bar h2 { font-size: 18px; font-weight: 800; }
-        .badge-count { background: rgba(229,9,20,0.15); color: #ff4d57; border: 1px solid rgba(229,9,20,0.4); padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: 700; }
-
-        /* Kanal Izgarası */
+        .badge-count { background: rgba(16,185,129,0.15); color: #34d399; border: 1px solid rgba(16,185,129,0.4); padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: 700; }
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(155px, 1fr)); gap: 14px; padding: 0 20px; }
         .card { background: var(--card); border-radius: 10px; overflow: hidden; cursor: pointer; position: relative; border: 1px solid rgba(255,255,255,0.06); transition: transform 0.2s; }
-        .card:hover { transform: translateY(-3px); border-color: var(--red); }
+        .card:hover { transform: translateY(-3px); border-color: var(--green); }
         .card img { width: 100%; height: 110px; object-fit: contain; background: #0f0f15; display: block; padding: 12px; }
-        .live-tag { position: absolute; top: 8px; left: 8px; background: var(--red); color: #fff; font-size: 9px; font-weight: 900; padding: 2px 6px; border-radius: 4px; }
+        .live-tag { position: absolute; top: 8px; left: 8px; background: var(--green); color: #000; font-size: 9px; font-weight: 900; padding: 2px 6px; border-radius: 4px; }
         .fav-icon { position: absolute; top: 6px; right: 6px; background: rgba(0,0,0,0.65); border: none; color: #fff; font-size: 13px; padding: 4px 7px; border-radius: 50%; cursor: pointer; }
         .card-info { padding: 10px; }
         .card-title { font-size: 13px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .card-meta { font-size: 11px; color: var(--muted); margin-top: 3px; }
-
-        /* Gelişmiş Oynatıcı */
         .player-overlay { display: none; position: fixed; inset: 0; background: #000; z-index: 999; flex-direction: column; }
         .player-header { padding: 14px 20px; background: linear-gradient(to bottom, rgba(0,0,0,0.95), transparent); display: flex; justify-content: space-between; align-items: center; z-index: 10; }
         .player-controls { display: flex; gap: 8px; }
@@ -59,25 +49,23 @@
 </head>
 <body>
 <header class="topbar">
-    <div class="brand">NOVA TV <span>PRO</span></div>
+    <div class="brand">NOVA TV <span>HTTPS</span></div>
     <select id="packSelect" class="source-select" onchange="loadPackage(this.value)">
-        <option value="countries/tr.m3u">🇹🇷 Türkiye Kanalları</option>
+        <option value="countries/tr.m3u">🇹🇷 Türkiye (Açık HTTPS Kanallar)</option>
         <option value="countries/az.m3u">🇦🇿 Azerbaycan Kanalları</option>
-        <option value="categories/animation.m3u">🎨 Dünya Çizgi Film & Animasyon</option>
-        <option value="categories/documentary.m3u">🌍 Dünya Belgesel Kanalları</option>
-        <option value="categories/movies.m3u">🎬 Açık Sinema & Film Kanalları</option>
-        <option value="categories/sports.m3u">⚽ Dünya Spor Kanalları</option>
-        <option value="categories/music.m3u">🎵 Dünya Müzik Kanalları</option>
+        <option value="categories/animation.m3u">🎨 Açık Çizgi Film & Animasyon</option>
+        <option value="categories/documentary.m3u">🌍 Açık Belgesel Kanalları</option>
+        <option value="categories/movies.m3u">🎬 Açık Sinema & Klasikler</option>
+        <option value="categories/music.m3u">🎵 Müzik Kanalları</option>
         <option value="countries/de.m3u">🇩🇪 Almanya Kanalları</option>
         <option value="countries/us.m3u">🇺🇸 ABD Kanalları</option>
     </select>
     <div class="tools">
         <input type="file" id="m3uFileInput" accept=".m3u,.m3u8" style="display:none" onchange="uploadM3UFile(event)">
         <button class="btn-tool" onclick="document.getElementById('m3uFileInput').click()">📁 M3U Yükle</button>
-        <button class="btn-tool red" onclick="addM3ULink()">+ M3U Link Ekle</button>
         <input type="file" id="localVideoInput" accept="video/*" style="display:none" onchange="openLocalVideo(event)">
-        <button class="btn-tool" onclick="document.getElementById('localVideoInput').click()">📂 Cihazdan Video</button>
-        <input type="text" id="searchInput" class="search-box" placeholder="Binlerce kanalda ara..." oninput="renderList()">
+        <button class="btn-tool red" onclick="document.getElementById('localVideoInput').click()">📂 Cihazdan Video</button>
+        <input type="text" id="searchInput" class="search-box" placeholder="Kanal ara..." oninput="renderList()">
     </div>
 </header>
 
@@ -87,18 +75,17 @@
     <div class="cat-pill" onclick="setSubCat('Çocuk', this)">Çocuk & Çizgi Film</div>
     <div class="cat-pill" onclick="setSubCat('Haber', this)">Haber</div>
     <div class="cat-pill" onclick="setSubCat('Belgesel', this)">Belgesel</div>
-    <div class="cat-pill" onclick="setSubCat('Sinema', this)">Sinema & Dizi</div>
-    <div class="cat-pill" onclick="setSubCat('Spor', this)">Spor</div>
+    <div class="cat-pill" onclick="setSubCat('Sinema', this)">Sinema</div>
     <div class="cat-pill" onclick="setSubCat('Müzik', this)">Müzik</div>
     <div class="cat-pill" onclick="setSubCat('Favoriler', this)">❤️ Favorilerim</div>
 </div>
 
 <div class="stats-bar">
-    <h2 id="packTitle">Türkiye Canlı Yayın Paketi</h2>
+    <h2 id="packTitle">Türkiye Açık Yayın Paketi</h2>
     <span class="badge-count" id="countBadge">0 Kanal</span>
 </div>
 
-<div id="statusMsg" class="loader">Yayın paketleri hazırlanıyor...</div>
+<div id="statusMsg" class="loader">Açık HTTPS yayınlar filtreleniyor...</div>
 <div class="grid" id="channelGrid"></div>
 
 <div class="player-overlay" id="playerModal">
@@ -114,16 +101,18 @@
 <script>
     const iptvBase = atob("aHR0cHM6Ly9pcHR2LW9yZy5naXRodWIuaW8vaXB0di8=");
     let allChannels = [];
+    let deadChannels = JSON.parse(localStorage.getItem("novapro_dead") || "[]");
     let currentSubCat = "Tümü";
     let favorites = JSON.parse(localStorage.getItem("novapro_favs") || "[]");
     let hls = null;
+    let activeChannelId = null;
 
     function createLogo(name) {
         const c = document.createElement("canvas");
         c.width = 360; c.height = 200;
         const ctx = c.getContext("2d");
         ctx.fillStyle = "#13131c"; ctx.fillRect(0, 0, 360, 200);
-        ctx.fillStyle = "#e50914"; ctx.fillRect(0, 0, 8, 200);
+        ctx.fillStyle = "#10b981"; ctx.fillRect(0, 0, 8, 200);
         ctx.fillStyle = "#fff"; ctx.font = "bold 22px sans-serif"; ctx.textAlign = "center";
         ctx.fillText(name.slice(0, 20), 184, 106);
         return c.toDataURL("image/png");
@@ -134,8 +123,7 @@
         if (s.includes("çocuk") || s.includes("cocuk") || s.includes("kid") || s.includes("cartoon") || s.includes("anim") || s.includes("minika") || s.includes("zarok")) return "Çocuk";
         if (s.includes("haber") || s.includes("news") || s.includes("ntv") || s.includes("cnn") || s.includes("halk") || s.includes("sözcü")) return "Haber";
         if (s.includes("belgesel") || s.includes("doc") || s.includes("yaban") || s.includes("nature") || s.includes("history")) return "Belgesel";
-        if (s.includes("film") || s.includes("movie") || s.includes("sinema") || s.includes("cinema") || s.includes("dizi")) return "Sinema";
-        if (s.includes("spor") || s.includes("sport") || s.includes("tjk") || s.includes("foot")) return "Spor";
+        if (s.includes("film") || s.includes("movie") || s.includes("sinema") || s.includes("cinema")) return "Sinema";
         if (s.includes("müzik") || s.includes("muzik") || s.includes("music") || s.includes("kral") || s.includes("power")) return "Müzik";
         return "Ulusal";
     }
@@ -150,13 +138,14 @@
                 const title = info.split(",").at(-1).replace(/\(.*?\)/g, "").trim();
                 const logoMatch = info.match(/tvg-logo="([^"]+)"/);
                 const groupMatch = info.match(/group-title="([^"]+)"/);
-                if (stream.startsWith("http")) {
+                const id = title + "_" + stream.slice(-15);
+                if (stream.startsWith("https://") && !deadChannels.includes(id)) {
                     parsed.push({
-                        id: title + "_" + i,
+                        id: id,
                         title: title || "Yayın Kanalı",
                         cat: classify(title, groupMatch ? groupMatch.at(1) : ""),
                         url: stream,
-                        logo: logoMatch ? logoMatch.at(1) : createLogo(title),
+                        logo: logoMatch && logoMatch.at(1).startsWith("https://") ? logoMatch.at(1) : createLogo(title),
                         fallback: createLogo(title)
                     });
                 }
@@ -169,7 +158,7 @@
         const select = document.getElementById("packSelect");
         document.getElementById("packTitle").innerText = select.options.item(select.selectedIndex).text;
         document.getElementById("statusMsg").style.display = "block";
-        document.getElementById("statusMsg").innerText = "Yayın paketi indiriliyor...";
+        document.getElementById("statusMsg").innerText = "Açık HTTPS kanallar hazırlanıyor...";
         document.getElementById("channelGrid").innerHTML = "";
 
         try {
@@ -179,25 +168,7 @@
             document.getElementById("statusMsg").style.display = "none";
             renderList();
         } catch (e) {
-            document.getElementById("statusMsg").innerText = "Paket yüklenemedi, lütfen internet bağlantınızı kontrol edin.";
-        }
-    }
-
-    async function addM3ULink() {
-        const url = prompt("Yasal .m3u / .m3u8 Oynatma Listesi Linkini Yapıştırın:");
-        if (!url) return;
-        document.getElementById("statusMsg").style.display = "block";
-        document.getElementById("statusMsg").innerText = "Özel M3U listesi yükleniyor...";
-        try {
-            const res = await fetch(url);
-            const text = await res.text();
-            allChannels = parseM3U(text);
-            document.getElementById("packTitle").innerText = "Özel M3U Listesi";
-            document.getElementById("statusMsg").style.display = "none";
-            renderList();
-        } catch (e) {
-            alert("Bu link tarayıcı güvenlik (CORS) engeline takıldı. Dosyayı bilgisayara indirip '📁 M3U Yükle' butonuyla açabilirsiniz.");
-            document.getElementById("statusMsg").style.display = "none";
+            document.getElementById("statusMsg").innerText = "Liste yüklenemedi, lütfen internet bağlantınızı kontrol edin.";
         }
     }
 
@@ -235,44 +206,54 @@
         grid.innerHTML = "";
 
         const filtered = allChannels.filter(c => {
+            if (deadChannels.includes(c.id)) return false;
             const matchQ = c.title.toLowerCase().includes(q);
             const matchCat = currentSubCat === "Tümü" || (currentSubCat === "Favoriler" && favorites.includes(c.id)) || c.cat === currentSubCat;
             return matchQ && matchCat;
         });
 
-        document.getElementById("countBadge").innerText = filtered.length + " Kanal";
+        document.getElementById("countBadge").innerText = filtered.length + " HTTPS Kanal";
         filtered.slice(0, 300).forEach(c => {
             const isFav = favorites.includes(c.id);
             const card = document.createElement("div");
             card.className = "card";
-            card.innerHTML = `<div class="live-tag">● CANLI</div><button class="fav-icon" onclick="toggleFav('${c.id}', event)">${isFav ? '❤️' : '🤍'}</button><img src="${c.logo}" onerror="this.src='${c.fallback}'" loading="lazy"><div class="card-info"><div class="card-title">${c.title}</div><div class="card-meta">${c.cat} • HD</div></div>`;
-            card.onclick = () => playStream(c.title, c.url);
+            card.innerHTML = `<div class="live-tag">● HTTPS</div><button class="fav-icon" onclick="toggleFav('${c.id}', event)">${isFav ? '❤️' : '🤍'}</button><img src="${c.logo}" onerror="this.src='${c.fallback}'" loading="lazy"><div class="card-info"><div class="card-title">${c.title}</div><div class="card-meta">${c.cat} • Açık Yayın</div></div>`;
+            card.onclick = () => playStream(c);
             grid.appendChild(card);
         });
     }
 
-    function playStream(title, url) {
+    function markAsDead(id) {
+        if (!id) return;
+        deadChannels.push(id);
+        localStorage.setItem("novapro_dead", JSON.stringify(deadChannels));
+        renderList();
+    }
+
+    function playStream(channel) {
+        activeChannelId = channel.id;
         const modal = document.getElementById("playerModal");
         const video = document.getElementById("videoPlayer");
-        document.getElementById("playingName").innerText = title;
+        document.getElementById("playingName").innerText = channel.title;
         modal.style.display = "flex";
 
         if (hls) { hls.destroy(); hls = null; }
 
-        if (typeof Hls !== "undefined" && Hls.isSupported() && url.includes(".m3u8")) {
-            hls = new Hls();
-            hls.loadSource(url);
+        if (typeof Hls !== "undefined" && Hls.isSupported() && channel.url.includes(".m3u8")) {
+            hls = new Hls({ manifestLoadingTimeOut: 8000 });
+            hls.loadSource(channel.url);
             hls.attachMedia(video);
-            hls.on(Hls.Events.MANIFEST_PARSED, () => video.play());
+            hls.on(Hls.Events.MANIFEST_PARSED, () => video.play().catch(() => {}));
             hls.on(Hls.Events.ERROR, (ev, data) => {
                 if (data.fatal) {
-                    alert("Bu yayın şu anda aktif değil veya yalnızca Android APK uygulamasında açılabilir.");
+                    markAsDead(activeChannelId);
                     closePlayer();
                 }
             });
         } else {
-            video.src = url;
-            video.play();
+            video.src = channel.url;
+            video.onerror = () => { markAsDead(activeChannelId); closePlayer(); };
+            video.play().catch(() => { markAsDead(activeChannelId); closePlayer(); });
         }
     }
 
@@ -285,7 +266,7 @@
     function openLocalVideo(event) {
         const file = event.target.files.item(0);
         if (!file) return;
-        playStream(file.name, URL.createObjectURL(file));
+        playStream({ id: null, title: file.name, url: URL.createObjectURL(file) });
     }
 
     function closePlayer() {
