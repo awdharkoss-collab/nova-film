@@ -19,8 +19,9 @@
         .nav-links { display: flex; gap: 16px; align-items: center; }
         .nav-item { color: #ddd; font-size: 14px; font-weight: 600; cursor: pointer; white-space: nowrap; padding: 6px 12px; border-radius: 6px; }
         .nav-item.active { background: rgba(255,255,255,0.12); border: 1px solid var(--red); color: #fff; }
-        .nav-right { margin-left: auto; }
-        .search-input { background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2); color: #fff; padding: 6px 12px; border-radius: 20px; font-size: 13px; width: 150px; outline: none; }
+        .nav-right { margin-left: auto; display: flex; gap: 10px; align-items: center; }
+        .search-input { background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2); color: #fff; padding: 6px 12px; border-radius: 20px; font-size: 13px; width: 140px; outline: none; }
+        .add-btn { background: var(--red); color: #fff; border: none; padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; cursor: pointer; white-space: nowrap; }
         .hero { position: relative; min-height: 440px; width: 100%; background-size: cover; background-position: center; display: flex; align-items: flex-end; padding: 90px 28px 36px; }
         .hero::before { content: ""; position: absolute; inset: 0; background: linear-gradient(to right, rgba(13,13,16,0.96) 25%, rgba(13,13,16,0.45) 65%, rgba(13,13,16,0.85) 100%), linear-gradient(to top, var(--bg) 5%, transparent 45%); }
         .hero-inner { position: relative; z-index: 2; width: 100%; display: flex; justify-content: space-between; align-items: flex-end; gap: 20px; }
@@ -64,6 +65,7 @@
         <div class="nav-item" onclick="switchTab('Top 25', this)">Top 25</div>
     </div>
     <div class="nav-right">
+        <button class="add-btn" onclick="addCustomVideo()">+ Video Ekle</button>
         <input type="text" id="searchInput" class="search-input" placeholder="Ara..." oninput="renderGrid()">
     </div>
 </nav>
@@ -100,7 +102,7 @@
     <video id="videoPlayer" controls playsinline></video>
 </div>
 <script>
-    const base = atob("aHR0cHM6Ly9jb21tb25kYXRhc3RvcmFnZS5nb29nbGVhcGlzLmNvbS9ndHYtdmlkZW9zLWJ1Y2tldC9zYW1wbGUv");
+    const w3 = atob("aHR0cHM6Ly9tZWRpYS53My5vcmcvMjAxMC8wNS8=");
     function makePoster(title, c1, c2) {
         const c = document.createElement("canvas");
         c.width = 400; c.height = 600;
@@ -119,18 +121,33 @@
         return c.toDataURL("image/png");
     }
 
-    const catalog = [
-        { id: 1, title: "Sintel", type: "Filmler", badge: "FİLM", year: "2010", rating: "8,5", rank: 1, recommended: true, poster: makePoster("SINTEL", "#7f1d1d", "#09090b"), video: base + "Sintel.mp4", desc: "Genç bir savaşçı olan Sintel, dostluk kurduğu yavru ejderhayı bulmak için tehlikeli diyarlarda yolculuğa çıkar." },
-        { id: 2, title: "Tears of Steel", type: "Filmler", badge: "FİLM", year: "2012", rating: "7,9", rank: 2, recommended: true, poster: makePoster("TEARS OF STEEL", "#1e3a8a", "#09090b"), video: base + "TearsOfSteel.mp4", desc: "Amsterdam'da bir grup bilim insanı ve savaşçı, dünyayı ele geçiren robotlara karşı geçmişi değiştirmeye çalışır." },
-        { id: 3, title: "Big Buck Bunny", type: "Diziler", badge: "DİZİ", year: "2008", rating: "8,2", rank: 3, recommended: false, poster: makePoster("BIG BUCK BUNNY", "#14532d", "#09090b"), video: base + "BigBuckBunny.mp4", desc: "Devasa ama yumuşak kalpli bir tavşanın ormandaki yaramaz kemirgenlere karşı verdiği eğlenceli mücadele." },
-        { id: 4, title: "Elephants Dream", type: "Filmler", badge: "KLASİK", year: "2006", rating: "8,0", rank: 4, recommended: true, poster: makePoster("ELEPHANTS DREAM", "#581c87", "#09090b"), video: base + "ElephantsDream.mp4", desc: "İki farklı karakterin mekanik ve gizemli bir dünyadaki sürreal yolculuğu." },
-        { id: 5, title: "Doğa & Uzay TV", type: "Canlı TV", badge: "CANLI TV", year: "2026", rating: "9,1", rank: 5, recommended: true, poster: makePoster("CANLI YAYIN", "#9a3412", "#09090b"), video: base + "ForBiggerEscapes.mp4", desc: "7/24 kesintisiz belgesel ve manzara akışı." }
+    const defaultCatalog = [
+        { id: 1, title: "Sintel", type: "Filmler", badge: "FİLM", year: "2010", rating: "8,5", rank: 1, recommended: true, poster: makePoster("SINTEL", "#7f1d1d", "#09090b"), video: w3 + "sintel/trailer_hd.mp4", desc: "Genç bir savaşçı olan Sintel, dostluk kurduğu yavru ejderhayı bulmak için tehlikeli diyarlarda yolculuğa çıkar." },
+        { id: 2, title: "Tears of Steel", type: "Filmler", badge: "FİLM", year: "2012", rating: "7,9", rank: 2, recommended: true, poster: makePoster("TEARS OF STEEL", "#1e3a8a", "#09090b"), video: w3 + "video/movie_300.mp4", desc: "Amsterdam'da bir grup bilim insanı ve savaşçı, dünyayı ele geçiren robotlara karşı geçmişi değiştirmeye çalışır." },
+        { id: 3, title: "Big Buck Bunny", type: "Diziler", badge: "DİZİ", year: "2008", rating: "8,2", rank: 3, recommended: false, poster: makePoster("BIG BUCK BUNNY", "#14532d", "#09090b"), video: w3 + "bunny/trailer.mp4", desc: "Devasa ama yumuşak kalpli bir tavşanın ormandaki yaramaz kemirgenlere karşı verdiği eğlenceli mücadele." },
+        { id: 4, title: "Elephants Dream", type: "Filmler", badge: "KLASİK", year: "2006", rating: "8,0", rank: 4, recommended: true, poster: makePoster("ELEPHANTS DREAM", "#581c87", "#09090b"), video: w3 + "sintel/trailer.mp4", desc: "İki farklı karakterin mekanik ve gizemli bir dünyadaki sürreal yolculuğu." },
+        { id: 5, title: "Doğa & Uzay TV", type: "Canlı TV", badge: "CANLI TV", year: "2026", rating: "9,1", rank: 5, recommended: true, poster: makePoster("CANLI YAYIN", "#9a3412", "#09090b"), video: w3 + "bunny/movie.mp4", desc: "7/24 kesintisiz belgesel ve manzara akışı." }
     ];
 
+    let customMovies = JSON.parse(localStorage.getItem("novafix_custom") || "[]").map(m => ({ ...m, poster: makePoster(m.title.toUpperCase(), "#0f766e", "#09090b") }));
+    let catalog = [...defaultCatalog, ...customMovies];
     let activeTab = "Ana Sayfa";
     let library = JSON.parse(localStorage.getItem("novafix_lib") || "[]");
     let continueList = JSON.parse(localStorage.getItem("novafix_cont") || "{}");
     let currentPlayingId = null;
+
+    function addCustomVideo() {
+        const title = prompt("Film veya Video Adı:");
+        if (!title) return;
+        const url = prompt("Doğrudan .mp4 Video Bağlantısını Yapıştırın:");
+        if (!url) return;
+        const raw = JSON.parse(localStorage.getItem("novafix_custom") || "[]");
+        const newItem = { id: Date.now(), title: title, type: "Filmler", badge: "ÖZEL", year: "2026", rating: "9,0", rank: catalog.length + 1, recommended: true, video: url, desc: "Kullanıcı tarafından eklenen özel video." };
+        raw.push(newItem);
+        localStorage.setItem("novafix_custom", JSON.stringify(raw));
+        catalog.push({ ...newItem, poster: makePoster(title.toUpperCase(), "#0f766e", "#09090b") });
+        renderGrid();
+    }
 
     function setHero(item) {
         if (!item) return;
@@ -215,4 +232,3 @@
 </script>
 </body>
 </html>
-
