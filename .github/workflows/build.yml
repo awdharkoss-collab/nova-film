@@ -1,0 +1,115 @@
+name: NOVA TV PRO APK Olustur
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Depoyu Cek
+        uses: actions/checkout@v4
+
+      - name: Java 17 Kur
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Gradle Kur
+        uses: gradle/actions/setup-gradle@v3
+        with:
+          gradle-version: '8.4'
+
+      - name: NOVA TV PRO Projesini Olustur
+        run: |
+          mkdir -p app/src/main/java/com/novatv/pro
+          mkdir -p app/src/main/assets
+          for d in mdpi hdpi xhdpi xxhdpi xxxhdpi; do
+            mkdir -p app/src/main/res/mipmap-$d
+          done
+
+          cp index.html app/src/main/assets/index.html
+
+          LOGO_FILE=$(ls *.png *.jpg *.jpeg *.webp 2>/dev/null | head -n 1)
+          if [ -n "$LOGO_FILE" ]; then
+            for d in mdpi hdpi xhdpi xxhdpi xxxhdpi; do
+              cp "$LOGO_FILE" app/src/main/res/mipmap-$d/ic_launcher.png
+              cp "$LOGO_FILE" app/src/main/res/mipmap-$d/ic_launcher_round.png
+            done
+          else
+            python3 -c '
+          import zlib, struct
+
+          W, H = 512, 512
+          img = bytearray(W * H * 4)
+
+          def set_px(x, y, r, g, b, a=255):
+              if 0 <= x < W and 0 <= y < H:
+                  idx = (y * W + x) * 4
+                  img[idx:idx+4] = bytes([r, g, b, a])
+
+          def fill_round_rect(x1, y1, x2, y2, rad, r, g, b):
+              for y in range(y1, y2):
+                  for x in range(x1, x2):
+                      dx = max(x1 + rad - x, 0, x - (x2 - rad - 1))
+                      dy = max(y1 + rad - y, 0, y - (y2 - rad - 1))
+                      if dx*dx + dy*dy <= rad*rad:
+                          set_px(x, y, r, g, b)
+
+          # Koyu TV siyah-kirmizi arka plan
+          for y in range(H):
+              t = y / H
+              r = int(28 * (1 - t) + 10 * t)
+              g = int(10 * (1 - t) + 10 * t)
+              b = int(16 * (1 - t) + 16 * t)
+              for x in range(W):
+                  set_px(x, y, r, g, b)
+
+          # Kirmizi TV cercevesi (#e50914)
+          fill_round_rect(86, 130, 426, 370, 36, 229, 9, 20)
+          # Ic koyu ekran
+          fill_round_rect(108, 152, 404, 348, 22, 18, 18, 26)
+          # TV ayakligi
+          fill_round_rect(190, 385, 322, 405, 8, 229, 9, 20)
+
+          # Ekran icinde beyaz Play ucgeni
+          for x in range(222, 312):
+              progress = (x - 222) / 90.0
+              half_h = int(52 * (1.0 - progress))
+              for y in range(250 - half_h, 250 + half_h + 1):
+                  set_px(x, y, 255, 255, 255)
+
+          raw = b"".join(b"\x00" + bytes(img[y*W*4:(y+1)*W*4]) for y in range(H))
+          def chunk(t, d):
+              return struct.pack(">I", len(d)) + t + d + struct.pack(">I", zlib.crc32(t + d) & 0xffffffff)
+
+          png = b"\x89PNG\r\n\x1a\n" + chunk(b"IHDR", struct.pack(">IIBBBBB", W, H, 8, 6, 0, 0, 0)) + chunk(b"IDAT", zlib.compress(raw)) + chunk(b"IEND", b"")
+          for d in ["mdpi", "hdpi", "xhdpi", "xxhdpi", "xxxhdpi"]:
+              open(f"app/src/main/res/mipmap-{d}/ic_launcher.png", "wb").write(png)
+              open(f"app/src/main/res/mipmap-{d}/ic_launcher_round.png", "wb").write(png)
+          '
+          fi
+
+          printf 'pluginManagement {\n    repositories {\n        google()\n        mavenCentral()\n        gradlePluginPortal()\n    }\n}\ndependencyResolutionManagement {\n    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)\n    repositories {\n        google()\n        mavenCentral()\n    }\n}\nrootProject.name = "NovaTvPro"\ninclude ":app"\n' > settings.gradle
+
+          printf 'plugins {\n    id "com.android.application" version "8.2.2" apply false\n    id "org.jetbrains.kotlin.android" version "1.9.22" apply false\n}\n' > build.gradle
+
+          printf 'org.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8\nandroid.useAndroidX=true\n' > gradle.properties
+
+          printf 'plugins {\n    id "com.android.application"\n    id "org.jetbrains.kotlin.android"\n}\nandroid {\n    namespace "com.novatv.pro"\n    compileSdk 34\n    defaultConfig {\n        applicationId "com.novatv.pro"\n        minSdk 24\n        targetSdk 34\n        versionCode 1\n        versionName "1.0"\n    }\n    compileOptions {\n        sourceCompatibility JavaVersion.VERSION_17\n        targetCompatibility JavaVersion.VERSION_17\n    }\n    kotlinOptions {\n        jvmTarget = "17"\n    }\n}\n' > app/build.gradle
+
+          echo "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPG1hbmlmZXN0IHhtbG5zOmFuZHJvaWQ9Imh0dHA6Ly9zY2hlbWFzLmFuZHJvaWQuY29tL2Fway9yZXMvYW5kcm9pZCI+CiAgICA8dXNlcy1wZXJtaXNzaW9uIGFuZHJvaWQ6bmFtZT0iYW5kcm9pZC5wZXJtaXNzaW9uLklOVEVSTkVUIiAvPgogICAgPHVzZXMtcGVybWlzc2lvbiBhbmRyb2lkOm5hbWU9ImFuZHJvaWQucGVybWlzc2lvbi5BQ0NFU1NfTkVUV09SS19TVEFURSIgLz4KICAgIDxhcHBsaWNhdGlvbiBhbmRyb2lkOmxhYmVsPSJOT1ZBIFRWIFBSTyIgYW5kcm9pZDppY29uPSJAbWlwbWFwL2ljX2xhdW5jaGVyIiBhbmRyb2lkOnJvdW5kSWNvbj0iQG1pcG1hcC9pY19sYXVuY2hlcl9yb3VuZCIgYW5kcm9pZDp1c2VzQ2xlYXJ0ZXh0VHJhZmZpYz0idHJ1ZSI+CiAgICAgICAgPGFjdGl2aXR5IGFuZHJvaWQ6bmFtZT0iLk1haW5BY3Rpdml0eSIgYW5kcm9pZDpjb25maWdDaGFuZ2VzPSJvcmllbnRhdGlvbnxzY3JlZW5TaXplfGtleWJvYXJkSGlkZGVuIiBhbmRyb2lkOmV4cG9ydGVkPSJ0cnVlIj4KICAgICAgICAgICAgPGludGVudC1maWx0ZXI+CiAgICAgICAgICAgICAgICA8YWN0aW9uIGFuZHJvaWQ6bmFtZT0iYW5kcm9pZC5pbnRlbnQuY2F0ZWdvcnkuTUFJTiIgLz4KICAgICAgICAgICAgICAgIDxjYXRlZ29yeSBhbmRyb2lkOm5hbWU9ImFuZHJvaWQuaW50ZW50LmNhdGVnb3J5LkxBVU5DSEVSIiAvPgogICAgICAgICAgICA8L2ludGVudC1maWx0ZXI+CiAgICAgICAgPC9hY3Rpdml0eT4KICAgIDwvYXBwbGljYXRpb24+CjwvbWFuaWZlc3Q+Cg==" | base64 -d > app/src/main/AndroidManifest.xml
+
+          printf 'package com.novatv.pro\n\nimport android.annotation.SuppressLint\nimport android.app.Activity\nimport android.os.Bundle\nimport android.webkit.WebChromeClient\nimport android.webkit.WebSettings\nimport android.webkit.WebView\nimport android.webkit.WebViewClient\n\nclass MainActivity : Activity() {\n    private lateinit var webView: WebView\n\n    @SuppressLint("SetJavaScriptEnabled")\n    override fun onCreate(savedInstanceState: Bundle?) {\n        super.onCreate(savedInstanceState)\n        webView = WebView(this)\n        setContentView(webView)\n\n        webView.settings.apply {\n            javaScriptEnabled = true\n            domStorageEnabled = true\n            allowFileAccess = true\n            allowContentAccess = true\n            mediaPlaybackRequiresUserGesture = false\n            cacheMode = WebSettings.LOAD_DEFAULT\n            mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW\n        }\n\n        webView.webViewClient = WebViewClient()\n        webView.webChromeClient = WebChromeClient()\n        webView.loadUrl("file:///android_asset/index.html")\n    }\n\n    @Deprecated("Deprecated in Java")\n    override fun onBackPressed() {\n        if (webView.canGoBack()) {\n            webView.goBack()\n        } else {\n            super.onBackPressed()\n        }\n    }\n}\n' > app/src/main/java/com/novatv/pro/MainActivity.kt
+
+      - name: APK Derle
+        run: gradle assembleDebug
+
+      - name: APK Dosyasini Yukle
+        uses: actions/upload-artifact@v4
+        with:
+          name: NOVA-TV-PRO-APK
+          path: app/build/outputs/apk/debug/*.apk
