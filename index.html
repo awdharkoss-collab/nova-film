@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>NOVA TV PRO • Doğrulanmış Canlı Yayın</title>
+    <title>NOVA TV PRO • Canlı Yayın & M3U Oynatıcı</title>
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -49,9 +49,9 @@
 </head>
 <body>
 <header class="topbar">
-    <div class="brand">NOVA TV <span>HTTPS</span></div>
+    <div class="brand">NOVA TV <span>PRO</span></div>
     <select id="packSelect" class="source-select" onchange="loadPackage(this.value)">
-        <option value="countries/tr.m3u">🇹🇷 Türkiye (Açık HTTPS Kanallar)</option>
+        <option value="countries/tr.m3u">🇹🇷 Türkiye Kanalları</option>
         <option value="countries/az.m3u">🇦🇿 Azerbaycan Kanalları</option>
         <option value="categories/animation.m3u">🎨 Açık Çizgi Film & Animasyon</option>
         <option value="categories/documentary.m3u">🌍 Açık Belgesel Kanalları</option>
@@ -61,7 +61,7 @@
         <option value="countries/us.m3u">🇺🇸 ABD Kanalları</option>
     </select>
     <div class="tools">
-        <input type="file" id="m3uFileInput" accept=".m3u,.m3u8" style="display:none" onchange="uploadM3UFile(event)">
+        <input type="file" id="m3uFileInput" accept=".m3u,.m3u8,.txt" style="display:none" onchange="uploadM3UFile(event)">
         <button class="btn-tool" onclick="document.getElementById('m3uFileInput').click()">📁 M3U Yükle</button>
         <input type="file" id="localVideoInput" accept="video/*" style="display:none" onchange="openLocalVideo(event)">
         <button class="btn-tool red" onclick="document.getElementById('localVideoInput').click()">📂 Cihazdan Video</button>
@@ -81,11 +81,11 @@
 </div>
 
 <div class="stats-bar">
-    <h2 id="packTitle">Türkiye Açık Yayın Paketi</h2>
+    <h2 id="packTitle">Türkiye Canlı Yayın Paketi</h2>
     <span class="badge-count" id="countBadge">0 Kanal</span>
 </div>
 
-<div id="statusMsg" class="loader">Açık HTTPS yayınlar filtreleniyor...</div>
+<div id="statusMsg" class="loader">Açık kanallar hazırlanıyor...</div>
 <div class="grid" id="channelGrid"></div>
 
 <div class="player-overlay" id="playerModal">
@@ -101,11 +101,9 @@
 <script>
     const iptvBase = atob("aHR0cHM6Ly9pcHR2LW9yZy5naXRodWIuaW8vaXB0di8=");
     let allChannels = [];
-    let deadChannels = JSON.parse(localStorage.getItem("novapro_dead") || "[]");
     let currentSubCat = "Tümü";
     let favorites = JSON.parse(localStorage.getItem("novapro_favs") || "[]");
     let hls = null;
-    let activeChannelId = null;
 
     function createLogo(name) {
         const c = document.createElement("canvas");
@@ -123,25 +121,31 @@
         if (s.includes("çocuk") || s.includes("cocuk") || s.includes("kid") || s.includes("cartoon") || s.includes("anim") || s.includes("minika") || s.includes("zarok")) return "Çocuk";
         if (s.includes("haber") || s.includes("news") || s.includes("ntv") || s.includes("cnn") || s.includes("halk") || s.includes("sözcü")) return "Haber";
         if (s.includes("belgesel") || s.includes("doc") || s.includes("yaban") || s.includes("nature") || s.includes("history")) return "Belgesel";
-        if (s.includes("film") || s.includes("movie") || s.includes("sinema") || s.includes("cinema")) return "Sinema";
+        if (s.includes("film") || s.includes("movie") || s.includes("sinema") || s.includes("cinema") || s.includes("dizi")) return "Sinema";
         if (s.includes("müzik") || s.includes("muzik") || s.includes("music") || s.includes("kral") || s.includes("power")) return "Müzik";
         return "Ulusal";
     }
 
-    function parseM3U(text) {
-        const lines = text.split("\n");
+    function parseM3U(text, allowHttp = false) {
+        const lines = text.split(/\r?\n/).map(l => l.trim()).filter(l => l.length > 0);
         const parsed = [];
         for (let i = 0; i < lines.length; i++) {
             if (lines.at(i).startsWith("#EXTINF")) {
                 const info = lines.at(i);
-                const stream = (lines.at(i + 1) || "").trim();
+                let stream = "";
+                for (let j = i + 1; j < lines.length; j++) {
+                    if (!lines.at(j).startsWith("#")) {
+                        stream = lines.at(j);
+                        break;
+                    }
+                }
                 const title = info.split(",").at(-1).replace(/\(.*?\)/g, "").trim();
                 const logoMatch = info.match(/tvg-logo="([^"]+)"/);
                 const groupMatch = info.match(/group-title="([^"]+)"/);
-                const id = title + "_" + stream.slice(-15);
-                if (stream.startsWith("https://") && !deadChannels.includes(id)) {
+                const validProto = allowHttp ? stream.startsWith("http") : stream.startsWith("https://");
+                if (validProto) {
                     parsed.push({
-                        id: id,
+                        id: title + "_" + i,
                         title: title || "Yayın Kanalı",
                         cat: classify(title, groupMatch ? groupMatch.at(1) : ""),
                         url: stream,
@@ -158,15 +162,15 @@
         const select = document.getElementById("packSelect");
         document.getElementById("packTitle").innerText = select.options.item(select.selectedIndex).text;
         document.getElementById("statusMsg").style.display = "block";
-        document.getElementById("statusMsg").innerText = "Açık HTTPS kanallar hazırlanıyor...";
+        document.getElementById("statusMsg").innerText = "Açık kanallar yükleniyor...";
         document.getElementById("channelGrid").innerHTML = "";
 
         try {
             const res = await fetch(iptvBase + path);
             const text = await res.text();
-            allChannels = parseM3U(text);
+            allChannels = parseM3U(text, false);
             document.getElementById("statusMsg").style.display = "none";
-            renderList();
+            setSubCat("Tümü", document.querySelector(".cat-pill"));
         } catch (e) {
             document.getElementById("statusMsg").innerText = "Liste yüklenemedi, lütfen internet bağlantınızı kontrol edin.";
         }
@@ -177,18 +181,24 @@
         if (!file) return;
         const reader = new FileReader();
         reader.onload = (e) => {
-            allChannels = parseM3U(e.target.result);
+            allChannels = parseM3U(e.target.result, true);
             document.getElementById("packTitle").innerText = file.name;
             document.getElementById("statusMsg").style.display = "none";
-            renderList();
+            setSubCat("Tümü", document.querySelector(".cat-pill"));
+            if (allChannels.length === 0) {
+                alert("Seçilen M3U dosyasında geçerli bir yayın linki bulunamadı.");
+            }
         };
         reader.readAsText(file);
+        event.target.value = "";
     }
 
     function setSubCat(cat, el) {
         currentSubCat = cat;
-        document.querySelectorAll(".cat-pill").forEach(p => p.classList.remove("active"));
-        el.classList.add("active");
+        if (el) {
+            document.querySelectorAll(".cat-pill").forEach(p => p.classList.remove("active"));
+            el.classList.add("active");
+        }
         renderList();
     }
 
@@ -206,32 +216,23 @@
         grid.innerHTML = "";
 
         const filtered = allChannels.filter(c => {
-            if (deadChannels.includes(c.id)) return false;
             const matchQ = c.title.toLowerCase().includes(q);
             const matchCat = currentSubCat === "Tümü" || (currentSubCat === "Favoriler" && favorites.includes(c.id)) || c.cat === currentSubCat;
             return matchQ && matchCat;
         });
 
-        document.getElementById("countBadge").innerText = filtered.length + " HTTPS Kanal";
-        filtered.slice(0, 300).forEach(c => {
+        document.getElementById("countBadge").innerText = filtered.length + " Kanal";
+        filtered.slice(0, 500).forEach(c => {
             const isFav = favorites.includes(c.id);
             const card = document.createElement("div");
             card.className = "card";
-            card.innerHTML = `<div class="live-tag">● HTTPS</div><button class="fav-icon" onclick="toggleFav('${c.id}', event)">${isFav ? '❤️' : '🤍'}</button><img src="${c.logo}" onerror="this.src='${c.fallback}'" loading="lazy"><div class="card-info"><div class="card-title">${c.title}</div><div class="card-meta">${c.cat} • Açık Yayın</div></div>`;
+            card.innerHTML = `<div class="live-tag">● CANLI</div><button class="fav-icon" onclick="toggleFav('${c.id}', event)">${isFav ? '❤️' : '🤍'}</button><img src="${c.logo}" onerror="this.src='${c.fallback}'" loading="lazy"><div class="card-info"><div class="card-title">${c.title}</div><div class="card-meta">${c.cat} • Yayın</div></div>`;
             card.onclick = () => playStream(c);
             grid.appendChild(card);
         });
     }
 
-    function markAsDead(id) {
-        if (!id) return;
-        deadChannels.push(id);
-        localStorage.setItem("novapro_dead", JSON.stringify(deadChannels));
-        renderList();
-    }
-
     function playStream(channel) {
-        activeChannelId = channel.id;
         const modal = document.getElementById("playerModal");
         const video = document.getElementById("videoPlayer");
         document.getElementById("playingName").innerText = channel.title;
@@ -240,20 +241,19 @@
         if (hls) { hls.destroy(); hls = null; }
 
         if (typeof Hls !== "undefined" && Hls.isSupported() && channel.url.includes(".m3u8")) {
-            hls = new Hls({ manifestLoadingTimeOut: 8000 });
+            hls = new Hls({ manifestLoadingTimeOut: 10000 });
             hls.loadSource(channel.url);
             hls.attachMedia(video);
             hls.on(Hls.Events.MANIFEST_PARSED, () => video.play().catch(() => {}));
             hls.on(Hls.Events.ERROR, (ev, data) => {
                 if (data.fatal) {
-                    markAsDead(activeChannelId);
+                    alert("Bu yayın şu anda aktif değil veya HTTPS tarayıcı güvenlik engeline takıldı (Android APK sürümünde HTTP yayınlar da açılır).");
                     closePlayer();
                 }
             });
         } else {
             video.src = channel.url;
-            video.onerror = () => { markAsDead(activeChannelId); closePlayer(); };
-            video.play().catch(() => { markAsDead(activeChannelId); closePlayer(); });
+            video.play().catch(() => {});
         }
     }
 
