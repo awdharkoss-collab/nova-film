@@ -13,15 +13,16 @@
         :root { --bg: #0d0d10; --surface: #16161d; --red: #e50914; --text: #ffffff; --muted: #b3b3b3; }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Roboto, sans-serif; }
         body { background: var(--bg); color: var(--text); overflow-x: hidden; padding-bottom: 50px; }
-        .navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 200; background: linear-gradient(to bottom, rgba(0,0,0,0.95), rgba(0,0,0,0.65), transparent); padding: 14px 24px; display: flex; align-items: center; gap: 22px; overflow-x: auto; scrollbar-width: none; }
+        .navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 200; background: linear-gradient(to bottom, rgba(0,0,0,0.95), rgba(0,0,0,0.65), transparent); padding: 14px 24px; display: flex; align-items: center; gap: 18px; overflow-x: auto; scrollbar-width: none; }
         .navbar::-webkit-scrollbar { display: none; }
         .logo { font-size: 24px; font-weight: 900; color: var(--red); letter-spacing: 1.5px; white-space: nowrap; }
-        .nav-links { display: flex; gap: 16px; align-items: center; }
+        .nav-links { display: flex; gap: 12px; align-items: center; }
         .nav-item { color: #ddd; font-size: 14px; font-weight: 600; cursor: pointer; white-space: nowrap; padding: 6px 12px; border-radius: 6px; }
         .nav-item.active { background: rgba(255,255,255,0.12); border: 1px solid var(--red); color: #fff; }
-        .nav-right { margin-left: auto; display: flex; gap: 10px; align-items: center; }
-        .search-input { background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2); color: #fff; padding: 6px 12px; border-radius: 20px; font-size: 13px; width: 140px; outline: none; }
+        .nav-right { margin-left: auto; display: flex; gap: 8px; align-items: center; }
+        .search-input { background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2); color: #fff; padding: 6px 12px; border-radius: 20px; font-size: 13px; width: 130px; outline: none; }
         .add-btn { background: var(--red); color: #fff; border: none; padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; cursor: pointer; white-space: nowrap; }
+        .local-btn { background: rgba(255,255,255,0.18); color: #fff; border: 1px solid rgba(255,255,255,0.25); padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; cursor: pointer; white-space: nowrap; }
         .hero { position: relative; min-height: 440px; width: 100%; background-size: cover; background-position: center; display: flex; align-items: flex-end; padding: 90px 28px 36px; }
         .hero::before { content: ""; position: absolute; inset: 0; background: linear-gradient(to right, rgba(13,13,16,0.96) 25%, rgba(13,13,16,0.45) 65%, rgba(13,13,16,0.85) 100%), linear-gradient(to top, var(--bg) 5%, transparent 45%); }
         .hero-inner { position: relative; z-index: 2; width: 100%; display: flex; justify-content: space-between; align-items: flex-end; gap: 20px; }
@@ -65,7 +66,9 @@
         <div class="nav-item" onclick="switchTab('Top 25', this)">Top 25</div>
     </div>
     <div class="nav-right">
-        <button class="add-btn" onclick="addCustomVideo()">+ Video Ekle</button>
+        <input type="file" id="localFileInput" accept="video/*" style="display:none" onchange="openLocalVideo(event)">
+        <button class="local-btn" onclick="document.getElementById('localFileInput').click()">📂 Cihazdan Aç</button>
+        <button class="add-btn" onclick="addCustomVideo()">+ Link Ekle</button>
         <input type="text" id="searchInput" class="search-input" placeholder="Ara..." oninput="renderGrid()">
     </div>
 </nav>
@@ -97,9 +100,17 @@
 <div class="modal" id="playerModal">
     <div class="modal-top">
         <span id="playerTitle" style="font-weight:700; font-size:16px;"></span>
-        <button class="close-btn" onclick="closePlayer()">✕ Kapat</button>
+        <div style="display:flex; gap:10px; align-items:center;">
+            <select id="qualitySelect" style="background:#222; color:#fff; border:1px solid #e50914; padding:6px 10px; border-radius:6px; font-weight:700;">
+                <option value="4k">4K Ultra HD</option>
+                <option value="1080p" selected>1080p Full HD</option>
+                <option value="720p">720p HD</option>
+            </select>
+            <button class="close-btn" onclick="closePlayer()">✕ Kapat</button>
+        </div>
     </div>
     <video id="videoPlayer" controls playsinline></video>
+    <iframe id="ytPlayer" style="display:none; width:100%; height:80vh; border:none;" allow="autoplay; fullscreen" allowfullscreen></iframe>
 </div>
 <script>
     const w3 = atob("aHR0cHM6Ly9tZWRpYS53My5vcmcvMjAxMC8wNS8=");
@@ -114,8 +125,8 @@
         ctx.beginPath(); ctx.arc(200, 240, 55, 0, Math.PI * 2); ctx.fill();
         ctx.fillStyle = "#ffffff";
         ctx.beginPath(); ctx.moveTo(185, 215); ctx.lineTo(185, 265); ctx.lineTo(230, 240); ctx.fill();
-        ctx.font = "bold 28px sans-serif"; ctx.textAlign = "center";
-        ctx.fillText(title, 200, 450);
+        ctx.font = "bold 26px sans-serif"; ctx.textAlign = "center";
+        ctx.fillText(title.slice(0, 18), 200, 450);
         ctx.font = "16px sans-serif"; ctx.fillStyle = "rgba(255,255,255,0.75)";
         ctx.fillText("NOVA SINEMA HD", 200, 490);
         return c.toDataURL("image/png");
@@ -136,17 +147,47 @@
     let continueList = JSON.parse(localStorage.getItem("novafix_cont") || "{}");
     let currentPlayingId = null;
 
+    function openLocalVideo(event) {
+        const file = event.target.files.item(0);
+        if (!file) return;
+        const localUrl = URL.createObjectURL(file);
+        const cleanName = file.name.replace(/\.[^/.]+$/, "");
+        const newItem = {
+            id: Date.now(),
+            title: cleanName,
+            type: "Filmler",
+            badge: "YEREL HD",
+            year: "2026",
+            rating: "9,5",
+            rank: catalog.length + 1,
+            recommended: true,
+            poster: makePoster(cleanName.toUpperCase(), "#0f766e", "#09090b"),
+            video: localUrl,
+            desc: "Cihazınızdan seçilen yerel video dosyası."
+        };
+        catalog.unshift(newItem);
+        setHero(newItem);
+        renderGrid();
+        playContent(newItem);
+    }
+
     function addCustomVideo() {
         const title = prompt("Film veya Video Adı:");
         if (!title) return;
-        const url = prompt("Doğrudan .mp4 Video Bağlantısını Yapıştırın:");
+        const url = prompt("Doğrudan .mp4 veya YouTube Bağlantısını Yapıştırın:");
         if (!url) return;
         const raw = JSON.parse(localStorage.getItem("novafix_custom") || "[]");
-        const newItem = { id: Date.now(), title: title, type: "Filmler", badge: "ÖZEL", year: "2026", rating: "9,0", rank: catalog.length + 1, recommended: true, video: url, desc: "Kullanıcı tarafından eklenen özel video." };
+        const newItem = { id: Date.now(), title: title, type: "Filmler", badge: "ÖZEL", year: "2026", rating: "9,0", rank: catalog.length + 1, recommended: true, video: url, desc: "Kullanıcı tarafından eklenen video bağlantısı." };
         raw.push(newItem);
         localStorage.setItem("novafix_custom", JSON.stringify(raw));
-        catalog.push({ ...newItem, poster: makePoster(title.toUpperCase(), "#0f766e", "#09090b") });
+        catalog.unshift({ ...newItem, poster: makePoster(title.toUpperCase(), "#0f766e", "#09090b") });
         renderGrid();
+    }
+
+    function getYouTubeId(url) {
+        const reg = /(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+        const match = url.match(reg);
+        return match ? match.at(1) : null;
     }
 
     function setHero(item) {
@@ -207,22 +248,35 @@
         currentPlayingId = item.id;
         const modal = document.getElementById("playerModal");
         const video = document.getElementById("videoPlayer");
+        const yt = document.getElementById("ytPlayer");
         document.getElementById("playerTitle").innerText = item.title;
-        video.src = item.video;
         modal.style.display = "flex";
-        if (continueList[item.id]) video.currentTime = continueList[item.id];
-        video.play();
+
+        const ytId = getYouTubeId(item.video);
+        if (ytId) {
+            video.style.display = "none";
+            yt.style.display = "block";
+            yt.src = "https://youtube.com" + ytId + "?autoplay=1";
+        } else {
+            yt.style.display = "none";
+            video.style.display = "block";
+            video.src = item.video;
+            if (continueList[item.id]) video.currentTime = continueList[item.id];
+            video.play();
+        }
     }
 
     function closePlayer() {
         const modal = document.getElementById("playerModal");
         const video = document.getElementById("videoPlayer");
-        if (currentPlayingId && video.currentTime > 2) {
+        const yt = document.getElementById("ytPlayer");
+        if (currentPlayingId && video.style.display !== "none" && video.currentTime > 2) {
             continueList[currentPlayingId] = video.currentTime;
             localStorage.setItem("novafix_cont", JSON.stringify(continueList));
         }
         video.pause();
         video.src = "";
+        yt.src = "";
         modal.style.display = "none";
         renderGrid();
     }
